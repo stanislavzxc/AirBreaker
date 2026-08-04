@@ -4,5 +4,5 @@ class MonitorModeRequest(BaseModel):
     device: str
 
 class MonitorModeResponse(BaseModel):
-    succes: bool
+    success: bool
     current_mode: str

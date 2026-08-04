@@ -1,1 +1,1 @@
-from . import MonitorMode, network_cards
+from . import monitor_mode, network_cards

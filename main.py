@@ -6,3 +6,7 @@ app = FastAPI()
 
 app.include_router(network_router)
 app.include_router(monitor_router)
+
+@app.get('/')
+def index():
+    return "check /docs"

@@ -15,8 +15,17 @@ async def set_monitor_mode_service(device: str) -> MonitorModeResponse:
     webcard_state = check_monitor_mode(device)
     webcard_wanted_state = 'managed' if webcard_state == "monitor" else 'monitor'
 
+    nm_status = "no" if webcard_wanted_state == "monitor" else "yes"
+        
+    webcard_kill = await asyncio.create_subprocess_exec(
+        "nmcli", "device", "set", device, "managed", nm_status,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE
+    )
+    await webcard_kill.communicate()
+
     down = await asyncio.create_subprocess_exec(
-        "ip", "link", "set", device, "down",
+        "sudo", "ip", "link", "set", device, "down",
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE 
     )
@@ -29,7 +38,7 @@ async def set_monitor_mode_service(device: str) -> MonitorModeResponse:
         )
     
     change_mode = await asyncio.create_subprocess_exec(
-        "iw", "dev", device, "set", "type", webcard_wanted_state,
+        "sudo", "iw", "dev", device, "set", "type", webcard_wanted_state,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE
     )
@@ -45,7 +54,7 @@ async def set_monitor_mode_service(device: str) -> MonitorModeResponse:
         )
 
     up = await asyncio.create_subprocess_exec(
-        "ip", "link", "set", device, "up",
+        "sudo", "ip", "link", "set", device, "up",
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE 
     )
