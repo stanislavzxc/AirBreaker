@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from service.NetworkCardsService import GetWifiChipsets
+from service.network_cards_service import GetWifiChipsets
 
-NetworkRouter = APIRouter(prefix="/api")
+network_router = APIRouter(prefix="/api")
 
-@NetworkRouter.get('/GetNetworkCards')
+@network_router.get('/GetNetworkCards')
 async def GetNetworkCards():
     devices = await GetWifiChipsets()
     return {"status": 200, "devices": devices }
