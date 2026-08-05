@@ -1,69 +1,47 @@
-import asyncio
-import shutil
+import asyncio, shutil
 from fastapi import HTTPException, status
+
 from utils.check_monitor_mode import check_monitor_mode 
+from utils.network_manager import network_manager_kill, network_manager_awake
+from utils.run_command import run_command 
+from utils.check_depends import check_depends
 from schemas.monitor import MonitorModeResponse
 
 async def set_monitor_mode_service(device: str) -> MonitorModeResponse:
-    for cmd in ["ip", "iw"]:
-        if not shutil.which(cmd):
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"System library '{cmd}' is not installed"
-            )
+    wanted_depends = ["ip", "iw"]
+    check_depends(wanted_depends)
         
     webcard_state = check_monitor_mode(device)
     webcard_wanted_state = 'managed' if webcard_state == "monitor" else 'monitor'
 
-    nm_status = "no" if webcard_wanted_state == "monitor" else "yes"
-        
-    webcard_kill = await asyncio.create_subprocess_exec(
-        "nmcli", "device", "set", device, "managed", nm_status,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE
-    )
-    await webcard_kill.communicate()
+    if webcard_wanted_state == "monitor":
+        await network_manager_kill(device)
+    else:
+        await network_manager_awake(device)
 
-    down = await asyncio.create_subprocess_exec(
-        "sudo", "ip", "link", "set", device, "down",
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE 
-    )
-    stdout_down, stderr_down = await down.communicate()
-    
-    if down.returncode != 0:
+    await asyncio.sleep(1)
+
+    code_down, _, stderr_down = await run_command("ip", "link", "set", device, "down")
+    if code_down != 0:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Command 'ip link set {device} down' failed: {stderr_down.decode().strip()}"
+            detail=f"Command 'ip link set {device} down' failed: {stderr_down}" 
         )
-    
-    change_mode = await asyncio.create_subprocess_exec(
-        "sudo", "iw", "dev", device, "set", "type", webcard_wanted_state,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE
-    )
-    stdout_change, stderr_change = await change_mode.communicate()
-    
-    if change_mode.returncode != 0:
-        rollback = await asyncio.create_subprocess_exec("ip", "link", "set", device, "up")
-        await rollback.communicate()
+
+    code_change, _, stderr_change = await run_command("iw", "dev", device, "set", "type", webcard_wanted_state)
+    if code_change != 0:
+        await run_command("ip", "link", "set", device, "up")
         
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Command 'iw dev {device} set type {webcard_wanted_state}' failed: {stderr_change.decode().strip()}"
+            detail=f"Command 'iw dev {device} set type {webcard_wanted_state}' failed: {stderr_change}"  
         )
 
-    up = await asyncio.create_subprocess_exec(
-        "sudo", "ip", "link", "set", device, "up",
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE 
-    )
-    stdout_up, stderr_up = await up.communicate() 
-    
-    if up.returncode != 0:
+    code_up, _, stderr_up = await run_command("ip", "link", "set", device, "up")
+    if code_up != 0:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Command 'ip link set {device} up' failed: {stderr_up.decode().strip()}"
+            detail=f"Command 'ip link set {device} up' failed: {stderr_up}" 
         )
         
     return MonitorModeResponse(

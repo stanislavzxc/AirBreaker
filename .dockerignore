@@ -1,1 +1,5 @@
-.env
+.env/
+.vscode/
+.git
+.gitignore
+**/__pycache__/
