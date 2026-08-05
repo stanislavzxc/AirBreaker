@@ -1,7 +1,7 @@
 import asyncio
 import os
 
-async def GetWifiChipsets():
+async def get_wifi_chipsets():
     interfaces = []
     main_dir = "/sys/class/net/"
 
