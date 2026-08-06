@@ -5,8 +5,8 @@ import logging
 
 from state import app_state 
 
-from utils.network_manager import network_manager_awake
-from utils.check_monitor_mode import check_monitor_mode
+from service.monitor_mode_service import set_monitor_mode_service
+from utils.check_webcard_mode import check_webcard_mode
 
 from routers.network_cards import network_card_router
 from routers.monitor_mode import monitor_router
@@ -17,9 +17,9 @@ async def lifespan(app: FastAPI):
     yield
     if app_state.current_card:
         try:
-            current_mode = check_monitor_mode(app_state.current_card)
+            current_mode = check_webcard_mode(app_state.current_card)
             if current_mode == "monitor":
-                await network_manager_awake(app_state.current_card)
+                await set_monitor_mode_service()
                 logging.info(
                     f"switch card {app_state.current_card} to managed type"
                 )

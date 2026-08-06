@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 
 from state import app_state
 
-from utils.check_monitor_mode import check_monitor_mode 
+from utils.check_webcard_mode import check_webcard_mode 
 from utils.network_manager import network_manager_kill, network_manager_awake
 from utils.run_command import run_command 
 from utils.check_depends import check_depends
@@ -19,7 +19,7 @@ async def set_monitor_mode_service() -> MonitorModeResponse:
     wanted_depends = ["ip", "iw"]
     check_depends(wanted_depends)
         
-    webcard_state = check_monitor_mode(device)
+    webcard_state = check_webcard_mode(device)
     webcard_wanted_state = 'managed' if webcard_state == "monitor" else 'monitor'
 
     async def handle_error(failed_command: str, stderr: str):

@@ -1,6 +1,6 @@
 import os
 
-def check_monitor_mode(device: str) -> str:
+def check_webcard_mode(device: str) -> str:
     wanted_dir = f"/sys/class/net/{device}/type"
 
     if not os.path.exists(wanted_dir):
