@@ -17,7 +17,12 @@ async def set_monitor_mode_service() -> MonitorModeResponse:
             detail="No network card selected. Call /set_current_network_card first.",
         )
     wanted_depends = ["ip", "iw"]
-    check_depends(wanted_depends)
+    missing_depends = check_depends(wanted_depends) 
+    if missing_depends:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Required dependencies are missing: {missing_depends}"
+        )
         
     webcard_state = check_webcard_mode(device)
     webcard_wanted_state = 'managed' if webcard_state == "monitor" else 'monitor'
