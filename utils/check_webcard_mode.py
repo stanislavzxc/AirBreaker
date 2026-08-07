@@ -1,5 +1,6 @@
 import os
 
+
 def check_webcard_mode(device: str) -> str:
     wanted_dir = f"/sys/class/net/{device}/type"
 

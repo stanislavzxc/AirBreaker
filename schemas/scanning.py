@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class WifiNetworkModel(BaseModel):
     ssid: str
     bssid: str

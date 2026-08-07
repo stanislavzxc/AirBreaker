@@ -1,5 +1,5 @@
-import asyncio
 import os
+
 
 async def get_wifi_chipsets():
     interfaces = []

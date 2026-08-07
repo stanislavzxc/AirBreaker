@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class Device(BaseModel):
     interface: str
     state: str

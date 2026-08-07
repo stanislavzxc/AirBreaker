@@ -1,5 +1,6 @@
 from scapy.layers.dot11 import Dot11
 
+
 def get_bssid(pkt):
     if not pkt.haslayer(Dot11):
         return None

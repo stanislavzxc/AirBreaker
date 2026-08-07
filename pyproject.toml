@@ -1,0 +1,21 @@
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort (сортировка импортов)
+    "FAST", # правила для FastAPI
+]
+ignore = [
+    "W291",
+    "W293",
+    "E701",
+    "F401",
+    "E722",
+    "E501"
+]
+

@@ -1,15 +1,13 @@
+import logging
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
-from contextlib import asynccontextmanager
-import logging
-
-from state import app_state 
-
-from service.monitor_mode_service import set_monitor_mode_service
-from utils.check_webcard_mode import check_webcard_mode
-
-from routers.network_cards import network_card_router
 from routers.monitor_mode import monitor_router
+from routers.network_cards import network_card_router
+from service.monitor_mode_service import set_monitor_mode_service
+from state import app_state
+from utils.check_webcard_mode import check_webcard_mode
 
 
 @asynccontextmanager

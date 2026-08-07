@@ -1,13 +1,14 @@
 import asyncio
+
 from fastapi import HTTPException, status
 
-from state import app_state
-
-from utils.check_webcard_mode import check_webcard_mode 
-from utils.network_manager import network_manager_kill, network_manager_awake
-from utils.run_command import run_command 
-from utils.check_depends import check_depends
 from schemas.monitor import MonitorModeResponse
+from state import app_state
+from utils.check_depends import check_depends
+from utils.check_webcard_mode import check_webcard_mode
+from utils.network_manager import network_manager_awake, network_manager_kill
+from utils.run_command import run_command
+
 
 async def set_monitor_mode_service() -> MonitorModeResponse:
     device = app_state.current_card
@@ -17,7 +18,7 @@ async def set_monitor_mode_service() -> MonitorModeResponse:
             detail="No network card selected. Call /set_current_network_card first.",
         )
     wanted_depends = ["ip", "iw"]
-    missing_depends = check_depends(wanted_depends) 
+    missing_depends = await check_depends(wanted_depends) 
     if missing_depends:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

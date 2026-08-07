@@ -1,6 +1,7 @@
 import asyncio
 from typing import Dict
-from scapy.layers.dot11 import Dot11Beacon, Dot11, Dot11Elt
+
+from scapy.layers.dot11 import Dot11, Dot11Beacon, Dot11Elt
 
 from utils.get_bssid import get_bssid
 

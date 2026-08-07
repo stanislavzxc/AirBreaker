@@ -1,5 +1,7 @@
 from fastapi import APIRouter
-from schemas.scanning import WifiNetworkModel 
+
+from schemas.scanning import WifiNetworkModel
+
 scanning_router = APIRouter(
     prefix="/ws",
     taps=["wifi scannign mode"]

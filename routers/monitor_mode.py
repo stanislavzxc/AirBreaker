@@ -1,6 +1,7 @@
 from fastapi import APIRouter
-from service.monitor_mode_service import set_monitor_mode_service
+
 from schemas.monitor import MonitorModeResponse
+from service.monitor_mode_service import set_monitor_mode_service
 
 monitor_router = APIRouter(prefix="/api", tags=["Wi-Fi Monitor Mode"])
 

@@ -1,6 +1,7 @@
 import asyncio
 from typing import Tuple
 
+
 async def run_command(*args: str) -> Tuple[int, str, str]:
     proc = await asyncio.create_subprocess_exec(
         "sudo", *args,
