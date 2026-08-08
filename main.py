@@ -7,7 +7,7 @@ from routers.monitor_mode import monitor_router
 from routers.network_cards import network_card_router
 from service.monitor_mode_service import set_monitor_mode_service
 from state import app_state
-from utils.check_webcard_mode import check_webcard_mode
+from utils import check_webcard_mode
 
 
 @asynccontextmanager

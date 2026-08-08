@@ -4,10 +4,12 @@ from fastapi import HTTPException, status
 
 from schemas.monitor import MonitorModeResponse
 from state import app_state
-from utils.check_depends import check_depends
-from utils.check_webcard_mode import check_webcard_mode
-from utils.network_manager import network_manager_awake, network_manager_kill
-from utils.run_command import run_command
+from utils.network import (
+    check_webcard_mode,
+    network_manager_awake,
+    network_manager_kill,
+)
+from utils.system import check_depends, run_command
 
 
 async def set_monitor_mode_service() -> MonitorModeResponse:

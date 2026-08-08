@@ -1,1 +1,1 @@
-from . import monitor_mode_service, network_cards_service
+from . import monitor_mode_service
