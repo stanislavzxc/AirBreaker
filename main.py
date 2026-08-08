@@ -3,11 +3,10 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from routers.monitor_mode import monitor_router
-from routers.network_cards import network_card_router
+from routers import monitor_router, network_card_router, scanning_router
 from service.monitor_mode_service import set_monitor_mode_service
 from state import app_state
-from utils import check_webcard_mode
+from utils.network import check_webcard_mode
 
 
 @asynccontextmanager
@@ -30,7 +29,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(network_card_router)
 app.include_router(monitor_router)
-
+app.include_router(scanning_router)
 @app.get('/')
 def index():
     return "check /docs"

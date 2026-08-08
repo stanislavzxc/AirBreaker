@@ -1,7 +1,7 @@
 import asyncio
 import re
 
-from utils.system import run_command
+from utils.system.run_command import run_command
 
 
 async def get_available_channels(device: str) -> list[int]:
@@ -31,7 +31,7 @@ async def channel_hopper(device):
                 print(f"change the channel {channel}")
             except asyncio.CancelledError:
                 break
-            except:
-                pass
+            except Exception:
+                print("unkown error in hopper")
             await asyncio.sleep(0.25)
     

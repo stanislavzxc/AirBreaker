@@ -3,9 +3,9 @@ from typing import Dict
 
 from scapy.layers.dot11 import Dot11, Dot11Beacon, Dot11Elt
 
-from utils import get_bssid
+from utils.network.get_bssid import get_bssid
 
-networks = Dict[str, dict] = {}
+networks : Dict[str, dict] = {}
 
 def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEventLoop):
     if not packet.haslayer(Dot11):

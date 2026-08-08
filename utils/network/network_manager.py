@@ -1,4 +1,4 @@
-from utils import run_command
+from utils.system.run_command import run_command
 
 
 async def network_manager_kill(device: str) -> bool:
