@@ -1,13 +1,12 @@
 import asyncio
 
-from fastapi import HTTPException, status
-
+from errors import CommandException, ServiceException
 from schemas.monitor import MonitorModeResponse
 from state import app_state
 from utils.network import (
     check_webcard_mode,
-    network_manager_awake,
-    network_manager_kill,
+    network_services_awake,
+    network_services_kill,
 )
 from utils.system import check_depends, run_command
 
@@ -15,52 +14,51 @@ from utils.system import check_depends, run_command
 async def set_monitor_mode_service() -> MonitorModeResponse:
     device = app_state.current_card
     if not device:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
+        raise ServiceException(
+            code=500,
             detail="No network card selected. Call /set_current_network_card first.",
         )
+   
     wanted_depends = ["ip", "iw"]
     missing_depends = await check_depends(wanted_depends) 
+
     if missing_depends:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        raise ServiceException(
+            code=500,
             detail=f"Required dependencies are missing: {missing_depends}"
         )
         
     webcard_state = check_webcard_mode(device)
     webcard_wanted_state = 'managed' if webcard_state == "monitor" else 'monitor'
 
-    async def handle_error(failed_command: str, stderr: str):
-        await run_command("ip", "link", "set", device, "up")
-        await network_manager_awake(device)
-        
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Command '{failed_command}' failed: {stderr}" 
-        )
+    async def handle_error(code: int, failed_command: str, stderr: str):
+        if code != 0:
+            try:
+                await run_command("ip", "link", "set", device, "up")
+                await network_services_awake(device)
+            except Exception:
+                pass
+            
+            raise CommandException(
+                code=500,
+                detail=f"Command '{failed_command}' failed: {stderr}" 
+            )
 
     if webcard_wanted_state == "monitor":
-        await network_manager_kill(device)
+        await network_services_kill(device)
     else:
-        await network_manager_awake(device)
+        await network_services_awake(device)
 
     await asyncio.sleep(1)
 
     code_down, _, stderr_down = await run_command("ip", "link", "set", device, "down")
-    if code_down != 0:
-        await handle_error(f"ip link set {device} down", stderr_down)
+    await handle_error(code_down, f"ip link set {device} down", stderr_down)
 
     code_change, _, stderr_change = await run_command("iw", "dev", device, "set", "type", webcard_wanted_state)
-    if code_change != 0:
-        await handle_error(f"iw dev {device} set type {webcard_wanted_state}", stderr_change)
+    await handle_error(code_change,f"iw dev {device} set type {webcard_wanted_state}", stderr_change)
 
     code_up, _, stderr_up = await run_command("ip", "link", "set", device, "up")
-    if code_up != 0:
-        await network_manager_awake(device)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Command 'ip link set {device} up' failed: {stderr_up}" 
-        )
+    await handle_error(code_up, f"ip link set {device} up", stderr_up)
         
     return MonitorModeResponse(
          success=True,

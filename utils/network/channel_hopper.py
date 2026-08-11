@@ -26,7 +26,7 @@ async def channel_hopper(device):
         while True:
             for channel in channels:
                 try:
-                    code, stderr, _ = await run_command("iw", "dev", device, "set", "channel", str(channel))
+                    code, _, stderr = await run_command("iw", "dev", device, "set", "channel", str(channel))
                     if code != 0:
                         print(f"cannot change channel {stderr}") 
                         continue

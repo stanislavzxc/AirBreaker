@@ -1,5 +1,12 @@
 .env/
 .vscode/
+**/__pycache__/
+.ruff_cache/
+
+.dockerfile
+docker-compose.yaml
 .git
 .gitignore
-**/__pycache__/
+readme.md
+LICENSE
+pyproject.toml

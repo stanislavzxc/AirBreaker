@@ -1,6 +1,6 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
-from schemas.scanning import WifiNetworkModel
+from schemas.base_response import BaseResponse
 from service.wifi_scanning_service import WifiScanningService
 
 scanning_router = APIRouter(
@@ -25,4 +25,13 @@ async def scanning(websocket: WebSocket) -> None :
         print("websocket was diconnect")
     finally:
         await scanning_service.stop_scanning()
+
+@scanning_router.get("/wifi_scanning_stop")
+async def stop_scanning() -> BaseResponse:
+    await scanning_service.stop_scanning()
+    return BaseResponse(
+        success=True,
+        message="ws scanning was stopped succesfully"
+    )
+    
 

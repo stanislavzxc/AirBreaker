@@ -3,7 +3,10 @@ from contextlib import asynccontextmanager
 
 import fastapi_swagger_dark as fsd
 from fastapi import APIRouter, FastAPI
+from fastapi.responses import JSONResponse
 
+from errors import CommandException, ServiceException
+from schemas.errors import CommandErrorResponse, ServiceErrorResponse
 from routers import monitor_router, network_card_router, scanning_router
 from service.monitor_mode_service import set_monitor_mode_service
 from state import app_state
@@ -36,6 +39,27 @@ app.include_router(swagger_router)
 app.include_router(network_card_router)
 app.include_router(monitor_router)
 app.include_router(scanning_router)
+
 @app.get('/')
 def index():
     return "check /docs"
+
+@app.exception_handler(CommandException)
+def linux_command_error(_, exc: CommandException) -> JSONResponse:
+    result = CommandErrorResponse(
+        detail=exc.detail,
+        code=exc.code,
+        failed_cmd=exc.failed_cmd,
+        stderr=exc.stderr
+    )
+    return JSONResponse(status_code=exc.code, content=result.model_dump())
+    
+
+@app.exception_handler(ServiceException)
+async def service_exception(_, exc: ServiceException) -> JSONResponse:
+    result = ServiceErrorResponse(
+        code=exc.code,
+        detail=exc.detail
+    )
+    return JSONResponse(status_code=exc.code, content=result.model_dump())
+
