@@ -31,12 +31,13 @@ class WifiScanningService():
         loop = asyncio.get_running_loop()
         
         def run_scapy():
-            sniff(
-                iface=device,
-                prn=lambda pkt: wifi_packets_callback(pkt, self.queue, loop),
-                stop_filter=lambda pkt: self._stop_sniff_event.is_set(),
-                store=0 
-            )
+            while not self._stop_sniff_event.is_set():
+                sniff(
+                    iface=device,
+                    prn=lambda pkt: wifi_packets_callback(pkt, self.queue, loop),
+                    timeout=0.5, 
+                    store=0 
+                )
 
         self._sniff_thread = threading.Thread(target=run_scapy, daemon=True)
         self._sniff_thread.start()

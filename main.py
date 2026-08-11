@@ -1,8 +1,8 @@
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, APIRouter
 import fastapi_swagger_dark as fsd
+from fastapi import APIRouter, FastAPI
 
 from routers import monitor_router, network_card_router, scanning_router
 from service.monitor_mode_service import set_monitor_mode_service
