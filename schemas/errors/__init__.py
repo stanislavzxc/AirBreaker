@@ -1,2 +1,3 @@
-from command import CommandErrorResponse
-from service import ServiceErrorResponse
+from .command import CommandErrorResponse
+
+from .service import ServiceErrorResponse

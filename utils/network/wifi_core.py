@@ -6,7 +6,7 @@ from scapy.layers.dot11 import Dot11, Dot11Beacon, Dot11Elt
 from state import app_state
 from utils.network.get_bssid import get_bssid
 
-networks : Dict[str, dict] = {}
+networks: Dict[str, dict] = {}
 
 def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEventLoop):
     if not packet.haslayer(Dot11):
@@ -31,7 +31,7 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
             if layer.ID == 0:  # SSID
                 try:
                     ssid = layer.info.decode('utf-8', errors='ignore')
-                except:
+                except Exception:
                     pass
             layer = layer.payload.getlayer(Dot11Elt)
 
@@ -46,14 +46,16 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
         else:
             networks[bssid]["rssi"] = rssi
             networks[bssid]["channel"] = current_channel
-        loop.call_soon_threadsafe(queue.put_nowait, networks[bssid])
         
-    elif packet[Dot11].type == 2:
+        loop.call_soon_threadsafe(queue.put_nowait, networks[bssid].copy())
+        
+    elif packet[Dot11].type == 2:  # Data packets
         if bssid in networks:
             packet_size = len(packet)  
             networks[bssid]["data_bytes"] += packet_size
             networks[bssid]["channel"] = current_channel  
-            loop.call_soon_threadsafe(queue.put_nowait, networks[bssid])
+            
+            loop.call_soon_threadsafe(queue.put_nowait, networks[bssid].copy())
 
 
 def wifi_packets_clear():

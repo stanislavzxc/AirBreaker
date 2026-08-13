@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+
 class ServiceErrorResponse(BaseModel):
     code: int = Field(
         default=500,

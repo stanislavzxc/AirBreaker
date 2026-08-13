@@ -38,4 +38,3 @@ async def channel_hopper(device):
                 await asyncio.sleep(0.25)
     except asyncio.CancelledError:
         print("hopper was stopped successfully")  
-

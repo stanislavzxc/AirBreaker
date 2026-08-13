@@ -1,4 +1,6 @@
-from errors.app_exception import AppException
+from errors.app import AppException
+
+
 class CommandException(AppException):
     def __init__(self, failed_cmd: str, stderr: str):
         self.failed_cmd = failed_cmd

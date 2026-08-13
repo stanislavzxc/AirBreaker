@@ -1,2 +1,3 @@
-from errors.service_exception import ServiceException
-from command_exception import CommandException
+from .command import CommandException
+
+from .service import ServiceException

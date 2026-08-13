@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+
 class CommandErrorResponse(BaseModel):
     detail: str = Field(
         default=None,

@@ -1,18 +1,15 @@
 import asyncio
-import threading
-
-from scapy.all import sniff
+from scapy.all import AsyncSniffer
 
 from schemas.scanning import WifiNetworkModel
 from state import app_state
 from utils.network import channel_hopper, wifi_packets_callback, wifi_packets_clear
 
 
-class WifiScanningService():
+class WifiScanningService:
     def __init__(self):
         self._hopper_task: asyncio.Task | None = None
-        self._sniff_thread: threading.Thread | None = None
-        self._stop_sniff_event = threading.Event()
+        self._sniffer: AsyncSniffer | None = None
         self.queue: asyncio.Queue = asyncio.Queue()
 
     async def start_scanning(self):
@@ -20,28 +17,23 @@ class WifiScanningService():
         if not device:
             raise ValueError("No network card selected in app_state")
 
-        if self._hopper_task or (self._sniff_thread and self._sniff_thread.is_alive()):
+        if self._hopper_task or (self._sniffer and self._sniffer.running):
             return
+
         wifi_packets_clear()
         self.queue = asyncio.Queue()
-        self._stop_sniff_event.clear()
 
         self._hopper_task = asyncio.create_task(channel_hopper(device))
 
         loop = asyncio.get_running_loop()
+        self._sniffer = AsyncSniffer(
+            iface=device,
+            prn=lambda pkt: wifi_packets_callback(pkt, self.queue, loop),
+            store=0
+        )
+        self._sniffer.start()
         
-        def run_scapy():
-            while not self._stop_sniff_event.is_set():
-                sniff(
-                    iface=device,
-                    prn=lambda pkt: wifi_packets_callback(pkt, self.queue, loop),
-                    timeout=0.5, 
-                    store=0 
-                )
-
-        self._sniff_thread = threading.Thread(target=run_scapy, daemon=True)
-        self._sniff_thread.start()
-        print(f"process ended succesfully {device}")
+        print(f"Scanning started successfully on device: {device}")
 
     async def stop_scanning(self):
         if self._hopper_task:
@@ -52,19 +44,18 @@ class WifiScanningService():
                 pass
             self._hopper_task = None
 
-        if self._sniff_thread and self._sniff_thread.is_alive():
-            self._stop_sniff_event.set()
-            await asyncio.to_thread(self._sniff_thread.join, timeout=2.0)
-            self._sniff_thread = None
+        if self._sniffer and self._sniffer.running:
+            self._sniffer.stop()
+            self._sniffer = None
+            print("Sniffer stopped successfully")
 
     async def stream_results(self):
         while True:
             raw_network_data = await self.queue.get()
-            
             try:
                 validated_model = WifiNetworkModel(**raw_network_data)
                 yield validated_model
             except Exception as e:
-                print(f"valid error: {e}")
+                print(f"Validation error: {e}")
             finally:
                 self.queue.task_done()
