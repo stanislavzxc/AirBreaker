@@ -1,5 +1,6 @@
 import asyncio
 from typing import Dict
+
 from scapy.layers.dot11 import Dot11, Dot11Beacon, Dot11Elt
 
 from state import app_state
