@@ -6,7 +6,7 @@ from fastapi import APIRouter, FastAPI
 from fastapi.responses import JSONResponse
 
 from errors import CommandException, ServiceException
-from routers import monitor_router, network_card_router, scanning_router
+from routers import monitor_router, network_card_router, scanning_router, current_network_router, handshake_router
 from schemas.errors import CommandErrorResponse, ServiceErrorResponse
 from service.monitor_mode_service import set_monitor_mode_service
 from state import app_state
@@ -39,6 +39,8 @@ app.include_router(swagger_router)
 app.include_router(network_card_router)
 app.include_router(monitor_router)
 app.include_router(scanning_router)
+app.include_router(current_network_router)
+app.include_router(handshake_router)
 
 @app.get('/')
 def index():

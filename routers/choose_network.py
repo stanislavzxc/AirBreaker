@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from schemas import BaseResponse, WifiNetworkModel
 from state import app_state
 
-current_network_router = APIRouter()
+current_network_router = APIRouter(prefix="/network", tags=["network"])
 
 @current_network_router.get('/get_current_network', response_model=BaseResponse)
 def get_current_network():

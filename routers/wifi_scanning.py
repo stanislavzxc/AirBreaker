@@ -4,7 +4,7 @@ from schemas.base_response import BaseResponse
 from service.wifi_scanning_service import WifiScanningService
 
 scanning_router = APIRouter(
-    prefix="/ws",
+    prefix="/network/ws",
     tags=["wifi scannign mode"]
 )
 

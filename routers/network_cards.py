@@ -7,7 +7,7 @@ from schemas.networkcards import NetworkCardsResponse
 from state import app_state
 from utils.network import get_wifi_chipsets
 
-network_card_router = APIRouter(prefix="/api")
+network_card_router = APIRouter(prefix="/network", tags=["network"])
 
 
 @network_card_router.get("/get_all_network_cards")
