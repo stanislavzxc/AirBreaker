@@ -2,8 +2,8 @@ from typing import Annotated
 
 from fastapi import APIRouter, Body
 
-from schemas.base_response import BaseResponse
-from schemas.networkcards import NetworkCardsResponse
+from models.base_response import BaseResponse
+from models.networkcards import NetworkCardsResponse
 from state import app_state
 from utils.network import get_wifi_chipsets
 

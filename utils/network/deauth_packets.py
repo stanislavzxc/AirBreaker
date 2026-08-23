@@ -1,5 +1,7 @@
-from scapy.layers.dot11 import Dot11, Dot11Deauth, RadioTap, sendp
 import asyncio
+
+from scapy.layers.dot11 import Dot11, Dot11Deauth, RadioTap, sendp
+
 
 class DeauthPackets():
     def __init__(self, bssid : str, device : str):

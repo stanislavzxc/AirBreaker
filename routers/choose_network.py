@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from schemas import BaseResponse, WifiNetworkModel
+from models import BaseResponse, WifiNetworkModel
 from state import app_state
 
 current_network_router = APIRouter(prefix="/network", tags=["network"])

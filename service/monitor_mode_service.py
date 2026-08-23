@@ -1,7 +1,7 @@
 import asyncio
 
 from errors import CommandException, ServiceException
-from schemas.monitor import MonitorModeResponse
+from models.monitor import MonitorModeResponse
 from state import app_state
 from utils.network import (
     check_webcard_mode,

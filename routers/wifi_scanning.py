@@ -1,6 +1,6 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
-from schemas.base_response import BaseResponse
+from models.base_response import BaseResponse
 from service.wifi_scanning_service import WifiScanningService
 
 scanning_router = APIRouter(
@@ -11,15 +11,15 @@ scanning_router = APIRouter(
 scanning_service = WifiScanningService()
 
 @scanning_router.websocket("/wifi_scanning")
-async def scanning(websocket: WebSocket) -> None :
-    await websocket.accept()
+async def scanning(ws: WebSocket) -> None :
+    await ws.accept()
 
     try:
         await scanning_service.start_scanning()
 
-        async for  network_model in scanning_service.stream_results():
+        async for network_model in scanning_service.stream_results():
             json_data = network_model.model_dump() 
-            await websocket.send_json(json_data)
+            await ws.send_json(json_data)
             
     except WebSocketDisconnect:
         print("websocket was diconnect")

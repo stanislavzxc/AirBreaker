@@ -1,4 +1,4 @@
-from schemas import WifiNetworkModel
+from models import WifiNetworkModel
 
 
 class AppState:

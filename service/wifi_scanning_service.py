@@ -2,7 +2,7 @@ import asyncio
 
 from scapy.all import AsyncSniffer, conf
 
-from schemas.scanning import WifiNetworkModel
+from models.scanning import WifiNetworkModel
 from state import app_state
 from utils.network import channel_hopper, wifi_packets_callback, wifi_packets_clear
 
