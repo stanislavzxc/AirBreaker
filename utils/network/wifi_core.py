@@ -2,6 +2,7 @@ import asyncio
 from typing import Dict
 
 from scapy.layers.dot11 import Dot11, Dot11Beacon, Dot11Elt
+from scapy.layers.eap import EAPOL
 
 from state import app_state
 from utils.network.get_bssid import get_bssid
@@ -84,6 +85,7 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
         
         loop.call_soon_threadsafe(queue.put_nowait, networks[bssid].copy())
 
-
+    elif packet.haslayer(EAPOL):
+        pass
 def wifi_packets_clear():
     networks.clear()
