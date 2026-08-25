@@ -4,7 +4,7 @@ The developer assumes no liability for any misuse, damage, or illegal activities
 Only use AirBreaker on networks you own or have explicit, written permission to test.
 
 
-# work in progrees
+# work in progress
 
 ## 📄 License
 
