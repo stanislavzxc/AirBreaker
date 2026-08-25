@@ -1,5 +1,5 @@
-# <h1 align="center">AirBreaker</h1>
-### <h3 align="center" style="color: #23f7c9;">Wi-Fi Security Framework</h3>
+<h1 align="center">AirBreaker</h1>
+<h3 align="center" style="color: #23f7c9;">Wi-Fi Security Framework</h3>
 <p align="center">
   <img src="images/logo.jpg" alt="AirBreaker Logo" width="auto"/>
 </p>
