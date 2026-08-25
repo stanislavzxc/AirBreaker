@@ -1,8 +1,12 @@
+# <p align="center">AirBreaker</p>
+<p align="center">
+  <img src="images/logo.jpg" alt="AirBreaker Logo" width="500"/>
+</p>
+
 ## ⚠️ Disclaimer
 This project is created strictly for educational purposes and authorized security testing (penetration testing). 
 The developer assumes no liability for any misuse, damage, or illegal activities caused by this tool. 
 Only use AirBreaker on networks you own or have explicit, written permission to test.
-
 
 # Work In Progress
 
@@ -12,7 +16,7 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 
 [![License: GPL v3](https://shields.io)](https://gnu.org)
 
-# Structure(dirs)
+# Structure
 ```text
 .
 ├── docker-compose.yaml          # Docker services configuration
@@ -21,6 +25,7 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 │   ├── app.py                   # FastAPI application error handlers
 │   ├── command.py               # CLI command execution errors
 │   └── service.py               # Business logic layer exceptions
+├── images/                      # images for visualisation
 ├── LICENSE                      # Project license
 ├── main.py                      # Application entry point
 ├── models/                      # Pydantic data validation models
