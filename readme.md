@@ -1,6 +1,6 @@
 # <p align="center">AirBreaker</p>
 <p align="center">
-  <img src="images/logo.jpg" alt="AirBreaker Logo" width="500"/>
+  <img src="images/logo.jpg" alt="AirBreaker Logo" width="auto"/>
 </p>
 
 ## ⚠️ Disclaimer
