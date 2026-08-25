@@ -1,4 +1,4 @@
-# <p align="center", color="#23f7c9">AirBreaker</p>
+# <p align="center"; color="#23f7c9">AirBreaker</p>
 <p align="center">
   <img src="images/logo.jpg" alt="AirBreaker Logo" width="auto"/>
 </p>
