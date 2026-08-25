@@ -1,0 +1,50 @@
+.
+├── docker-compose.yaml          # Docker services configuration
+├── errors/                      # Custom error handlers and exceptions
+│   ├── __init__.py              # Package initialization
+│   ├── app.py                   # FastAPI application error handlers
+│   ├── command.py               # CLI command execution errors
+│   └── service.py               # Business logic layer exceptions
+├── LICENSE                      # Project license
+├── main.py                      # Application entry point
+├── models/                      # Pydantic data validation models
+│   ├── __init__.py              # Package initialization
+│   ├── base_response.py         # Base response schema for all APIs
+│   ├── errors/                  # Error response models
+│   │   ├── __init__.py          # Package initialization
+│   │   ├── command.py           # Command execution error models
+│   │   └── service.py           # Service layer error models
+│   ├── monitor.py               # Wi-Fi monitor mode models
+│   ├── networkcards.py          # Network interface card models
+│   └── scanning.py              # Wi-Fi scanning request/response models
+├── pyproject.toml               # Project metadata and dependencies
+├── readme.md                    # Project documentation
+├── requirements.txt             # Python package dependencies
+├── routers/                     # API route handlers
+│   ├── __init__.py              # Package initialization
+│   ├── choose_network.py        # Network selection endpoints
+│   ├── handshake.py             # WPA handshake capture endpoints
+│   ├── monitor_mode.py          # Monitor mode management endpoints
+│   ├── network_cards.py         # Network card management endpoints
+│   └── wifi_scanning.py         # Wi-Fi scanning endpoints
+├── service/                     # Business logic layer
+│   ├── __init__.py              # Package initialization
+│   ├── handshake.py             # Handshake capture business logic
+│   ├── monitor_mode_service.py  # Monitor mode operations
+│   └── wifi_scanning_service.py # Wi-Fi scanning business logic
+├── state.py                     # Application state management
+└── utils/                       # Utility modules
+    ├── __init__.py              # Package initialization
+    ├── network/                 # Network-related utilities
+    │   ├── __init__.py          # Package initialization
+    │   ├── channel_hopper.py    # Channel hopping for scanning
+    │   ├── check_webcard_mode.py# Check network card operation mode
+    │   ├── deauth_packets.py    # Deauthentication packet injection
+    │   ├── get_bssid.py         # BSSID extraction utilities
+    │   ├── network_cards.py     # Network card operations
+    │   ├── network_services.py  # Network service utilities
+    │   └── wifi_core.py         # Core Wi-Fi operations
+    └── system/                  # System-level utilities
+        ├── __init__.py          # Package initialization
+        ├── check_depends.py     # Dependency verification
+        └── run_command.py       # Secure command execution wrapper
