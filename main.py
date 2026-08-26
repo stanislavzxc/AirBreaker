@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 import fastapi_swagger_dark as fsd
 from fastapi import APIRouter, FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from errors import CommandException, ServiceException
 from models.errors import CommandErrorResponse, ServiceErrorResponse
@@ -36,6 +37,11 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, docs_url=None)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"]
+)
 
 swagger_router = APIRouter()
 fsd.install(swagger_router)

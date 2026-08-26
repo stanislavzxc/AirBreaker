@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 <h1 align="center">AirBreaker</h1>
 <h3 align="center" style="color: #23f7c9;">Wi-Fi Security Framework</h3>
+=======
+# <h1 align="center">AirBreaker</h1>
+### <h3 align="center" style="color: #23f7c9;">Wi-Fi Security Framework</h3>
+>>>>>>> 11362d0 (some changes)
 <p align="center">
   <img src="images/logo.jpg" alt="AirBreaker Logo" width="auto"/>
 </p>
@@ -26,7 +31,6 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 │   ├── app.py                   # FastAPI application error handlers
 │   ├── command.py               # CLI command execution errors
 │   └── service.py               # Business logic layer exceptions
-├── images/                      # images for visualisation
 ├── LICENSE                      # Project license
 ├── main.py                      # Application entry point
 ├── models/                      # Pydantic data validation models
@@ -43,12 +47,14 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 ├── readme.md                    # Project documentation
 ├── requirements.txt             # Python package dependencies
 ├── routers/                     # API route handlers
+│   ├── ws/                      # websocket endpoints
+│   │   ├── __init__.py          # Package initialization
+│   │   ├── wifi_scanning.py     # Wi-Fi scanning endpoints
+│   │   └──handshake.py          # WPA handshake capture endpoints
 │   ├── __init__.py              # Package initialization
 │   ├── choose_network.py        # Network selection endpoints
-│   ├── handshake.py             # WPA handshake capture endpoints
 │   ├── monitor_mode.py          # Monitor mode management endpoints
 │   ├── network_cards.py         # Network card management endpoints
-│   └── wifi_scanning.py         # Wi-Fi scanning endpoints
 ├── service/                     # Business logic layer
 │   ├── __init__.py              # Package initialization
 │   ├── handshake.py             # Handshake capture business logic
@@ -365,3 +371,5 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 
 ## 🛠️ Tools Integration
  soon
+
+>>>>>>> 11362d0... some changes

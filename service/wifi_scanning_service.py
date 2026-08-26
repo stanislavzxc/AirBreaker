@@ -53,10 +53,20 @@ class WifiScanningService:
 
     async def stream_results(self):
         while True:
-            raw_network_data = await self.queue.get()
+            raw_data = await self.queue.get()
             try:
-                validated_model = WifiNetworkModel(**raw_network_data)
-                yield validated_model
+                msg_type = raw_data.get("type")
+                
+                if msg_type == "network_update":
+                    raw_network_data = raw_data.get("data")
+                    
+                    if raw_network_data:
+                        validated_model = WifiNetworkModel(**raw_network_data)
+                        yield validated_model
+                        
+                elif msg_type == "handshake":
+                    pass
+                    
             except Exception as e:
                 print(f"Validation error: {e}")
             finally:

@@ -41,8 +41,9 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
 
     if client_mac and client_mac not in networks[bssid]["clients_mac"]:
         networks[bssid]["clients_mac"].append(client_mac)
-        loop.call_soon_threadsafe(queue.put_nowait, networks[bssid].copy())
+        loop.call_soon_threadsafe(queue.put_nowait, {"type": "network_update", "data": networks[bssid].copy()})
 
+    # 3. Beacon
     if packet.haslayer(Dot11Beacon):
         try:
             rssi: int = packet.dBm_AntSignal
@@ -76,16 +77,42 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
         if ssid: 
             networks[bssid]["ssid"] = ssid
         
-        loop.call_soon_threadsafe(queue.put_nowait, networks[bssid].copy())
+        loop.call_soon_threadsafe(queue.put_nowait, {"type": "network_update", "data": networks[bssid].copy()})
 
+    # 4.Data)
     elif packet[Dot11].type == 2:
         packet_size = len(packet)  
         networks[bssid]["data_bytes"] += packet_size
         networks[bssid]["channel"] = current_channel  
         
-        loop.call_soon_threadsafe(queue.put_nowait, networks[bssid].copy())
+        loop.call_soon_threadsafe(queue.put_nowait, {"type": "network_update", "data": networks[bssid].copy()})
 
-    elif packet.haslayer(EAPOL):
-        pass
+    # (EAPOL)
+    if packet.haslayer(EAPOL):
+        eapol = packet[EAPOL]
+
+        # (EAPOL-Key)
+        if eapol.type == 3:
+            wpa_key = eapol.payload
+            try:
+                key_info = wpa_key.key_info
+            except AttributeError:
+                return
+
+            is_pairwise = bool(key_info & 0x0080)
+            is_ack = bool(key_info & 0x0100)
+
+            if is_pairwise:
+                if is_ack:
+                    loop.call_soon_threadsafe(
+                        queue.put_nowait, 
+                        {"type": "handshake", "step": "M1", "bssid": bssid, "client_mac": client_mac or addr1, "packet": packet}
+                    )
+                else:
+                    loop.call_soon_threadsafe(
+                        queue.put_nowait, 
+                        {"type": "handshake", "step": "M2", "bssid": bssid, "client_mac": client_mac or addr2, "packet": packet}
+                    )
+
 def wifi_packets_clear():
     networks.clear()
