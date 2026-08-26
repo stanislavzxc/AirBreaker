@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-<h1 align="center">AirBreaker</h1>
-<h3 align="center" style="color: #23f7c9;">Wi-Fi Security Framework</h3>
-=======
-# <h1 align="center">AirBreaker</h1>
-### <h3 align="center" style="color: #23f7c9;">Wi-Fi Security Framework</h3>
->>>>>>> 11362d0 (some changes)
+# AirBreaker
+### Wi-Fi Security Framework
+
 <p align="center">
   <img src="images/logo.jpg" alt="AirBreaker Logo" width="auto"/>
 </p>
@@ -371,5 +367,3 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 
 ## 🛠️ Tools Integration
  soon
-
->>>>>>> 11362d0... some changes
