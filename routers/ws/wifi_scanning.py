@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 
 from models.base_response import BaseResponse
 from service.wifi_scanning_service import WifiScanningService
-from utils.network import check_network_card_mode
-from utils.network.network_card import check_network_card
+from deps.ws import get_monitor_device_ws 
+
 
 scanning_router = APIRouter(
     prefix="/scanning/ws",
@@ -13,7 +13,7 @@ scanning_router = APIRouter(
 scanning_service = WifiScanningService()
 
 @scanning_router.websocket("/start")
-async def scanning(ws: WebSocket, device: str = Depends(check_network_card)) -> None :
+async def scanning(ws: WebSocket, device: str = Depends(get_monitor_device_ws)) -> None :
     await ws.accept()
 
     try:
