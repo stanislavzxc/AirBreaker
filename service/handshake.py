@@ -1,16 +1,20 @@
-# from scapy.all import *
-
 from utils.network import DeauthPackets
-
+from models.enums import DeauthType
 
 class Handshake():
-    def __init__(self, type):
-        self.type = type
+    def __init__(self, device, attack_type):
+        self.device = self.device
+        self.attack_type = attack_type,
 
-    def start_catching(self):
-        # deauth = DeauthPackets()
-        pass
-
+    async def start_catching(self):
+        deauth = DeauthPackets()
+        match self.attack_type:
+            case DeauthType.ALL:
+                await deauth.kill_all_users()
+            case DeauthType.MANY:
+                await deauth.kill_many_users()
+            case DeauthType.ONE:
+                await deauth.kill_one_user() 
         
 
     

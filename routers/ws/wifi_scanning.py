@@ -1,21 +1,23 @@
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
 
 from models.base_response import BaseResponse
 from service.wifi_scanning_service import WifiScanningService
+from utils.network.network_card import check_network_card
+from utils.network import check_network_card_mode
 
 scanning_router = APIRouter(
-    prefix="/network/ws",
-    tags=["wifi scannign mode"]
+    prefix="/scanning/ws",
+    tags=["wifi scanning mode"]
 )
 
 scanning_service = WifiScanningService()
 
-@scanning_router.websocket("/wifi_scanning")
-async def scanning(ws: WebSocket) -> None :
+@scanning_router.websocket("/start")
+async def scanning(ws: WebSocket, device: str = Depends(check_network_card)) -> None :
     await ws.accept()
 
     try:
-        await scanning_service.start_scanning()
+        await scanning_service.start_scanning(device)
 
         async for network_model in scanning_service.stream_results():
             json_data = network_model.model_dump() 
@@ -26,7 +28,7 @@ async def scanning(ws: WebSocket) -> None :
     finally:
         await scanning_service.stop_scanning()
 
-@scanning_router.get("/wifi_scanning_stop")
+@scanning_router.get("/stop")
 async def stop_scanning() -> BaseResponse:
     await scanning_service.stop_scanning()
     return BaseResponse(

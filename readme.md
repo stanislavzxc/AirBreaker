@@ -62,7 +62,7 @@ This project is licensed under the **GNU General Public License v3.0** - see the
     ├── network/                 # Network-related utilities
     │   ├── __init__.py          # Package initialization
     │   ├── channel_hopper.py    # Channel hopping for scanning
-    │   ├── check_webcard_mode.py# Check network card operation mode
+    │   ├── check_network_card_mode.py# Check network card operation mode
     │   ├── deauth_packets.py    # Deauthentication packet injection
     │   ├── get_bssid.py         # BSSID extraction utilities
     │   ├── network_cards.py     # Network card operations

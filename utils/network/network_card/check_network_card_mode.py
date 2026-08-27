@@ -1,7 +1,7 @@
 import os
 
 
-def check_webcard_mode(device: str) -> str:
+def check_network_card_mode(device: str) -> str:
     wanted_dir = f"/sys/class/net/{device}/type"
 
     if not os.path.exists(wanted_dir):
@@ -16,3 +16,4 @@ def check_webcard_mode(device: str) -> str:
         
     except Exception as e:
         raise ValueError(f"Failed to read interface type for {device}: {e}")
+

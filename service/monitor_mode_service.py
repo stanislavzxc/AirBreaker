@@ -4,7 +4,7 @@ from errors import CommandException, ServiceException
 from models.monitor import MonitorModeResponse
 from state import app_state
 from utils.network import (
-    check_webcard_mode,
+    check_network_card_mode,
     network_services_awake,
     network_services_kill,
 )
@@ -28,8 +28,8 @@ async def set_monitor_mode_service() -> MonitorModeResponse:
             detail=f"Required dependencies are missing: {missing_depends}"
         )
         
-    webcard_state = check_webcard_mode(device)
-    webcard_wanted_state = 'managed' if webcard_state == "monitor" else 'monitor'
+    network_card_state = check_network_card_mode(device)
+    network_card_wanted_state = 'managed' if network_card_state == "monitor" else 'monitor'
 
     async def handle_error(code: int, failed_command: str, stderr: str):
         if code != 0:
@@ -44,7 +44,7 @@ async def set_monitor_mode_service() -> MonitorModeResponse:
                 detail=f"Command '{failed_command}' failed: {stderr}" 
             )
 
-    if webcard_wanted_state == "monitor":
+    if network_card_wanted_state == "monitor":
         await network_services_kill(device)
     else:
         await network_services_awake(device)
@@ -54,13 +54,13 @@ async def set_monitor_mode_service() -> MonitorModeResponse:
     code_down, _, stderr_down = await run_command("ip", "link", "set", device, "down")
     await handle_error(code_down, f"ip link set {device} down", stderr_down)
 
-    code_change, _, stderr_change = await run_command("iw", "dev", device, "set", "type", webcard_wanted_state)
-    await handle_error(code_change,f"iw dev {device} set type {webcard_wanted_state}", stderr_change)
+    code_change, _, stderr_change = await run_command("iw", "dev", device, "set", "type", network_card_wanted_state)
+    await handle_error(code_change,f"iw dev {device} set type {network_card_wanted_state}", stderr_change)
 
     code_up, _, stderr_up = await run_command("ip", "link", "set", device, "up")
     await handle_error(code_up, f"ip link set {device} up", stderr_up)
         
     return MonitorModeResponse(
          success=True,
-         current_mode=webcard_wanted_state
+         current_mode=network_card_wanted_state
     )

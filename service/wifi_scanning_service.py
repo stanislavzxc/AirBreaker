@@ -3,7 +3,6 @@ import asyncio
 from scapy.all import AsyncSniffer, conf
 
 from models.scanning import WifiNetworkModel
-from state import app_state
 from utils.network import channel_hopper, wifi_packets_callback, wifi_packets_clear
 
 
@@ -13,11 +12,7 @@ class WifiScanningService:
         self._sniffer: AsyncSniffer | None = None
         self.queue: asyncio.Queue = asyncio.Queue()
 
-    async def start_scanning(self):
-        device = app_state.current_card
-        if not device:
-            raise ValueError("No network card selected in app_state")
-
+    async def start_scanning(self, device: str):
         if self._hopper_task or (self._sniffer and self._sniffer.running):
             return
 

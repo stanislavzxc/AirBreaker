@@ -6,7 +6,7 @@ from fastapi import APIRouter, FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from errors import CommandException, ServiceException
+from errors import CommandException, ServiceException, NetworkCardNotFoundError
 from models.errors import CommandErrorResponse, ServiceErrorResponse
 from routers import (
     current_network_router,
@@ -17,7 +17,7 @@ from routers import (
 )
 from service.monitor_mode_service import set_monitor_mode_service
 from state import app_state
-from utils.network import check_webcard_mode
+from utils.network import check_network_card_mode
 
 
 @asynccontextmanager
@@ -25,7 +25,7 @@ async def lifespan(app: FastAPI):
     yield
     if app_state.current_card:
         try:
-            current_mode = check_webcard_mode(app_state.current_card)
+            current_mode = check_network_card_mode(app_state.current_card)
             if current_mode == "monitor":
                 await set_monitor_mode_service()
                 logging.info(
@@ -76,4 +76,9 @@ async def service_exception(_, exc: ServiceException) -> JSONResponse:
         detail=exc.detail
     )
     return JSONResponse(status_code=exc.code, content=result.model_dump())
+
+@app.exception_handler(NetworkCardNotFoundError)
+async def not_found_exception(_, exc: NetworkCardNotFoundError) -> JSONResponse:
+    result = NetworkCardNotFoundError()
+    return JSONResponse(status_code=exc.code, content=result.model_dump()) 
 
