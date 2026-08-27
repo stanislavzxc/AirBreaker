@@ -1,5 +1,6 @@
-from utils.network import DeauthPackets
 from models.enums import DeauthType
+from utils.network import DeauthPackets
+
 
 class Handshake():
     def __init__(self, device, attack_type):

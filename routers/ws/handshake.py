@@ -1,12 +1,14 @@
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
-from utils.network.network_card import check_network_card
+from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
+
 from models import BaseResponse
+from utils.network.network_card import check_network_card
+from deps.ws import get_monitor_device_ws
 
 handshake_router = APIRouter(prefix="/handshake", tags=["handshake"])
 
 @handshake_router.websocket("/ws/catch")
-def catch_handshake(ws: WebSocket, attack_type: str, device: str = Depends(check_network_card)) -> None:
-    ws.accept()
+async def catch_handshake(ws: WebSocket, attack_type: str, device: str = Depends(get_monitor_device_ws)) -> None:
+    await ws.accept()
     try:
         pass
     except WebSocketDisconnect:

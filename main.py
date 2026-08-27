@@ -3,10 +3,10 @@ from contextlib import asynccontextmanager
 
 import fastapi_swagger_dark as fsd
 from fastapi import APIRouter, FastAPI
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
-from errors import CommandException, ServiceException, NetworkCardNotFoundError
+from errors import CommandException, NetworkCardNotFoundError, ServiceException
 from models.errors import CommandErrorResponse, ServiceErrorResponse
 from routers import (
     current_network_router,

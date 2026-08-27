@@ -1,9 +1,9 @@
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
+from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 
 from models.base_response import BaseResponse
 from service.wifi_scanning_service import WifiScanningService
-from utils.network.network_card import check_network_card
 from utils.network import check_network_card_mode
+from utils.network.network_card import check_network_card
 
 scanning_router = APIRouter(
     prefix="/scanning/ws",

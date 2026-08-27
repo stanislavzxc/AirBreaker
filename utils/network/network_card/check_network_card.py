@@ -1,5 +1,6 @@
-from state import app_state
 from errors import NetworkCardNotFoundError
+from state import app_state
+
 
 def check_network_card() -> str: 
     if not app_state.current_card:
