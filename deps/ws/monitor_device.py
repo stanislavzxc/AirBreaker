@@ -1,4 +1,5 @@
 import os
+from typing import Annotated
 
 from fastapi import Depends, WebSocket, status
 
@@ -8,7 +9,7 @@ from state import AppState, app_state
 def get_app_state() -> AppState:
     return app_state
 
-async def get_monitor_device_ws(ws: WebSocket, state: AppState = Depends(get_app_state)) -> str:
+async def get_monitor_device_ws(ws: WebSocket, state: Annotated[AppState, Depends(get_app_state)] ) -> str:
     device = state.current_card
     
     if not device:

@@ -1,7 +1,9 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends
 
 from models.monitor import MonitorModeResponse
-from service.monitor_mode_service import set_monitor_mode_service
+from service import set_monitor_mode_service
 from utils.network import check_network_card_mode
 from utils.network.network_card import check_network_card
 
@@ -13,6 +15,6 @@ async def set_monitor_mode():
     return result
 
 @monitor_router.get("/is_monitor_mode")
-def is_monitor_mode(device : str = Depends(check_network_card)) -> bool:
+def is_monitor_mode(device : Annotated[str, Depends(check_network_card)] ) -> bool:
     mode = check_network_card_mode(device) 
     return mode == "monitor"

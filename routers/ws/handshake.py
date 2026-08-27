@@ -1,22 +1,35 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 
-from models import BaseResponse
 from deps.ws import get_monitor_device_ws
+from models import BaseResponse, WifiNetworkModel
+from service import HandshakeService
 
 handshake_router = APIRouter(prefix="/handshake", tags=["handshake"])
 
-@handshake_router.websocket("/ws/catch")
-async def catch_handshake(ws: WebSocket, attack_type: str, device: str = Depends(get_monitor_device_ws)) -> None:
+handshake_service = HandshakeService()
+
+
+@handshake_router.websocket("/ws/start")
+async def catching_handshake(ws: WebSocket, attack_type: str, device: Annotated[str, Depends(get_monitor_device_ws)]) -> None:
     await ws.accept()
     try:
-        pass
+        await handshake_service.start_catching(device, attack_type)
+        async for network_model in handshake_service.stream_results():
+            json_data = network_model.model_dump()
+            await ws.send_json(json_data)
+
     except WebSocketDisconnect:
         print("websocket was disconnected")
+    finally:
+        await handshake_service.stop_catching()
 
 @handshake_router.post("/ws/stop", response_model=BaseResponse)
-def stop_catching(ws: WebSocket):
+async def stop_catching():
+    await handshake_service.stop_catching()
     return BaseResponse(
-        succes=True,
+        success=True,
         message="catching handshake was stopped"
     )        
 

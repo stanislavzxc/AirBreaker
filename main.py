@@ -15,7 +15,7 @@ from routers import (
     network_card_router,
     scanning_router,
 )
-from service.monitor_mode_service import set_monitor_mode_service
+from service import set_monitor_mode_service
 from state import app_state
 from utils.network import check_network_card_mode
 

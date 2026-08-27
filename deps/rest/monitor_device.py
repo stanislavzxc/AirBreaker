@@ -1,5 +1,6 @@
 # app/dependencies.py
 import os
+from typing import Annotated
 
 from fastapi import Depends, HTTPException, status
 
@@ -9,7 +10,7 @@ from state import AppState, app_state
 def get_app_state() -> AppState:
     return app_state
 
-def get_monitor_device(state: AppState = Depends(get_app_state)) -> str:
+def get_monitor_device(state: Annotated[AppState, Depends(get_app_state)] ) -> str:
     device = state.current_card
     
     if not device:
