@@ -29,6 +29,13 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 │   └── service.py               # Business logic layer exceptions
 ├── LICENSE                      # Project license
 ├── main.py                      # Application entry point
+├── deps/                        # custom DI for validations in routers
+│   ├── rest                     #DI for rest endpoints
+│   │   ├── __init__.py          # Package initialization
+│   │   └── monitor_device.py    # get a network_card that set in monitor mode
+│   ├── ws                       #DI for ws endpoints
+│   │   ├── __init__.py          # Package initialization
+│   │   └── monitor_device.py    # get a network_card that set in monitor mode
 ├── models/                      # Pydantic data validation models
 │   ├── __init__.py              # Package initialization
 │   ├── base_response.py         # Base response schema for all APIs
@@ -72,6 +79,7 @@ This project is licensed under the **GNU General Public License v3.0** - see the
         ├── __init__.py          # Package initialization
         ├── check_depends.py     # Dependency verification
         └── run_command.py       # Secure command execution wrapper
+
 ```
 
 # 🗺️ Roadmap
@@ -83,7 +91,7 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 - [x] Monitor mode activation
 - [x] Basic Wi-Fi scanning (beacon, data, eapol frames)
 - [x] Channel hopping
-- [x] Handshake capture (in work)
+- [x] Handshake capture 
 
 ---
 
@@ -107,7 +115,7 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 - [ ] MAC blacklist/whitelist bypass techniques
 
 ### Deauthentication Attacks
-- [ ] Targeted deauth attack
+- [x] Targeted deauth attack
 - [ ] Broadcast deauth attack
 - [ ] Deauth with PMKID capture
 - [ ] Deauth frame customization
