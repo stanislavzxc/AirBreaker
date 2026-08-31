@@ -4,8 +4,9 @@ from scapy.all import AsyncSniffer
 
 from models import WifiNetworkModel
 from models.enums import DeauthType
-from utils.network import DeauthPackets, wifi_packets_callback, wifi_packets_clear
 from state import app_state
+from utils.network import DeauthPackets, wifi_packets_callback, wifi_packets_clear
+
 
 class HandshakeService():
     # Current target. Mass attack support will be added in future versions.

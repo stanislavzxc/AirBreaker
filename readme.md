@@ -53,6 +53,7 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 │   ├── ws/                      # websocket endpoints
 │   │   ├── __init__.py          # Package initialization
 │   │   ├── wifi_scanning.py     # Wi-Fi scanning endpoints
+│   │   ├── pmkid.py             # PMKID capture endpoints
 │   │   └──handshake.py          # WPA handshake capture endpoints
 │   ├── __init__.py              # Package initialization
 │   ├── choose_network.py        # Network selection endpoints
@@ -61,6 +62,7 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 ├── service/                     # Business logic layer
 │   ├── __init__.py              # Package initialization
 │   ├── handshake.py             # Handshake capture business logic
+│   ├── pmkid.py                 # PMKID capture business logic
 │   ├── monitor_mode_service.py  # Monitor mode operations
 │   └── wifi_scanning_service.py # Wi-Fi scanning business logic
 ├── state.py                     # Application state management

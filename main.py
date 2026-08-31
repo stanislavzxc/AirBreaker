@@ -13,6 +13,7 @@ from routers import (
     handshake_router,
     monitor_router,
     network_card_router,
+    pmkid_router,
     scanning_router,
 )
 from service import set_monitor_mode_service
@@ -53,6 +54,7 @@ app.include_router(monitor_router)
 app.include_router(scanning_router)
 app.include_router(current_network_router)
 app.include_router(handshake_router)
+app.include_router(pmkid_router)
 
 @app.get('/')
 def index():
