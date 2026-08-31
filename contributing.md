@@ -21,7 +21,7 @@ This project and everyone participating in it is governed by our Code of Conduct
 1. Fork the repo
 2. Create a new branch: `git checkout -b feature/amazing-feature`
 3. Make your changes
-4. Run tests: `pytest`
+<!-- 4. Run tests: `pytest` -->
 5. Commit with clear message: `git commit -m "feat: add amazing feature"`
 6. Push: `git push origin feature/amazing-feature`
 7. Open a Pull Request
@@ -39,7 +39,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
-pip install -r requirements-dev.txt  # For testing
+<!-- pip install -r requirements-dev.txt  # For testing -->
 
 # Run
-python main.py
+python  sudo uvicorn main:app --host 0.0.0.0 --port 5000 --reload

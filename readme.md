@@ -1,5 +1,9 @@
+<p align="center">
+
 # AirBreaker
 ### Wi-Fi Security Framework
+
+</p>
 
 <p align="center">
   <img src="images/logo.jpg" alt="AirBreaker Logo" width="auto"/>
