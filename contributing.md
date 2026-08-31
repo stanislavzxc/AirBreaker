@@ -43,3 +43,5 @@ pip install -r requirements.txt
 
 # Run
 python  sudo uvicorn main:app --host 0.0.0.0 --port 5000 --reload
+
+#pytest now is innactive. Add in future

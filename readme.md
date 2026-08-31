@@ -1,13 +1,6 @@
-<p align="center">
+<h1 align="center">AirBreaker</h1>
 
-# AirBreaker
-</p>
-
-<p align="center">
-
-### Wi-Fi Security Framework
-
-</p>
+<p align="center">Wi-Fi Security Framework</p>
 
 <p align="center">
   <img src="images/logo.jpg" alt="AirBreaker Logo" width="auto"/>
