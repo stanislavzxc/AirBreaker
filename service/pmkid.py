@@ -1,7 +1,6 @@
 import asyncio
 
 from scapy.all import AsyncSniffer
-from scapy.layers.dot11 import Dot11, Dot11Auth
 
 from state import app_state
 from utils.network import wifi_packets_callback, wifi_packets_clear
