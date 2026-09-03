@@ -5,7 +5,7 @@ from scapy.all import AsyncSniffer
 from models import WifiNetworkModel
 from models.enums import DeauthType
 from state import app_state
-from utils.network import DeauthPackets, wifi_packets_callback, wifi_packets_clear
+from utils.network import PacketsBuilder, wifi_packets_callback, wifi_packets_clear
 
 
 class HandshakeService():
@@ -20,7 +20,7 @@ class HandshakeService():
         if self._sniffer and self._sniffer.running:
             return 
         network = app_state.current_network
-        deauth = DeauthPackets(network.bssid, device)
+        deauth = PacketsBuilder(network.bssid, device)
         self.queue = asyncio.Queue()
 
         wifi_packets_clear()

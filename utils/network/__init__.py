@@ -1,5 +1,6 @@
 from .channel_hopper import channel_hopper, get_available_channels
-from .deauth_packets import DeauthPackets
+from .deauth_packets import PacketsBuilder
+from .generate_mac import generate_random_mac
 from .get_bssid import get_bssid
 from .network_card.check_network_card import check_network_card
 from .network_card.check_network_card_mode import check_network_card_mode

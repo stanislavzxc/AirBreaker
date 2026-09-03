@@ -31,10 +31,10 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 ├── LICENSE                      # Project license
 ├── main.py                      # Application entry point
 ├── deps/                        # custom DI for validations in routers
-│   ├── rest                     #DI for rest endpoints
+│   ├── rest/                     #DI for rest endpoints
 │   │   ├── __init__.py          # Package initialization
 │   │   └── monitor_device.py    # get a network_card that set in monitor mode
-│   ├── ws                       #DI for ws endpoints
+│   ├── ws/                       #DI for ws endpoints
 │   │   ├── __init__.py          # Package initialization
 │   │   └── monitor_device.py    # get a network_card that set in monitor mode
 ├── models/                      # Pydantic data validation models
@@ -72,6 +72,7 @@ This project is licensed under the **GNU General Public License v3.0** - see the
     ├── network/                 # Network-related utilities
     │   ├── __init__.py          # Package initialization
     │   ├── channel_hopper.py    # Channel hopping for scanning
+    │   ├── generate_mac.py      # Generate random mac address
     │   ├── check_network_card_mode.py# Check network card operation mode
     │   ├── deauth_packets.py    # Deauthentication packet injection
     │   ├── get_bssid.py         # BSSID extraction utilities
