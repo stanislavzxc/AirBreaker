@@ -33,10 +33,11 @@
 │   │   ├── wifi_scanning.py     # Wi-Fi scanning endpoints
 │   │   ├── pmkid.py             # PMKID capture endpoints
 │   │   └──handshake.py          # WPA handshake capture endpoints
-│   ├── __init__.py              # Package initialization
-│   ├── choose_network.py        # Network selection endpoints
-│   ├── monitor_mode.py          # Monitor mode management endpoints
-│   ├── network_cards.py         # Network card management endpoints
+│   ├── rest/                    # rest endpoints
+│   │   ├── __init__.py          # Package initialization
+│   │   ├── choose_network.py    # Network selection endpoints
+│   │   ├── monitor_mode.py      # Monitor mode management endpoints
+│   │   └── network_cards.py     # Network card management endpoints
 ├── service/                     # Business logic layer
 │   ├── __init__.py              # Package initialization
 │   ├── handshake.py             # Handshake capture business logic
