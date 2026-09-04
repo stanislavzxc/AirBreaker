@@ -127,7 +127,9 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
                                 "bssid": bssid,
                                 "client_mac": target_client,
                                 "pmkid": pmkid.hex(),
-                                "packet": packet
+                                "packet": packet,
+                                "ssid": ssid,
+                                "channel": 1
                             }
                         )
 

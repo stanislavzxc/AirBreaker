@@ -12,10 +12,10 @@ handshake_service = HandshakeService()
 
 
 @handshake_router.websocket("/ws/start")
-async def catching_handshake(ws: WebSocket, attack_type: str, device: Annotated[str, Depends(get_monitor_device_ws)]) -> None:
+async def capture_handshake(ws: WebSocket, attack_type: str, device: Annotated[str, Depends(get_monitor_device_ws)]) -> None:
     await ws.accept()
     try:
-        await handshake_service.start_catching(device, attack_type)
+        await handshake_service.start_capture(device, attack_type)
         async for network_model in handshake_service.stream_results():
             json_data = network_model.model_dump()
             await ws.send_json(json_data)
@@ -23,11 +23,11 @@ async def catching_handshake(ws: WebSocket, attack_type: str, device: Annotated[
     except WebSocketDisconnect:
         print("websocket was disconnected")
     finally:
-        await handshake_service.stop_catching()
+        await handshake_service.stop_capture()
 
 @handshake_router.post("/ws/stop", response_model=BaseResponse)
-async def stop_catching():
-    await handshake_service.stop_catching()
+async def stop_capture():
+    await handshake_service.stop_capture()
     return BaseResponse(
         success=True,
         message="catching handshake was stopped"

@@ -16,7 +16,7 @@ class HandshakeService():
         self.queue : asyncio.Queue = asyncio.Queue()
         self.deauth_task : asyncio.Task | None = None
 
-    async def start_catching(self, device, attack_type):
+    async def start_capture(self, device, attack_type):
         if self._sniffer and self._sniffer.running:
             return 
         network = app_state.current_network
@@ -45,7 +45,7 @@ class HandshakeService():
             case DeauthType.ONE:
                 self.deauth_task = asyncio.create_task(deauth.kill_one_user()) 
         print("deauth packets was sended")
-    async def stop_catching(self):
+    async def stop_capture(self):
         if self.deauth_task:
             self.deauth_task.cancel()
             try:

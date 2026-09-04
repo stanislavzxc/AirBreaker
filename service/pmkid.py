@@ -4,7 +4,7 @@ from scapy.all import AsyncSniffer
 
 from state import app_state
 from utils.network import PacketsBuilder, wifi_packets_callback, wifi_packets_clear
-
+from models import PmkidCaptured
 #current target. mass-attack will be add in future, maybe
 
 class PmkidService():
@@ -48,20 +48,23 @@ class PmkidService():
             print("pmkid sniffer was stopped")
 
     async def stream_results(self):
-        # while True:
-        #     raw_data = self.queue.get("type")
-        #     try:
-        #         msg_type = raw_data.get("type")
-        #         if msg_type == "handshake":
-        #             raw_network_data = raw_data.get("data")
-        #             if raw_network_data:
-        #                 # validated_model = WifiNetworkModel(**raw_network_data)
-        #                 # yield validated_model
-        #                 pass
-        #         elif msg_type == "network_update":
-        #             pass
-        #     except Exception as e:
-        #         print(f"Validation error: {e}")
-        #     finally:
-        #         self.queue.task_done()
-        pass
+        while True:
+             raw_data = self.queue.get("type")
+             try:
+                 msg_type = raw_data.get("type")
+                 if msg_type == "pmkid":
+                     raw_network_data = raw_data.get("data")
+                     if raw_network_data:
+                         validated_model = PmkidCaptured(**raw_network_data)
+                         yield validated_model
+                         
+                 elif msg_type == "network_update":
+                     pass
+                 elif msg_type == "handshake":
+                    pass
+                 
+             except Exception as e:
+                 print(f"Validation error: {e}")
+             finally:
+                 self.queue.task_done()
+        
