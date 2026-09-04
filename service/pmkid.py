@@ -48,19 +48,20 @@ class PmkidService():
             print("pmkid sniffer was stopped")
 
     async def stream_results(self):
-        while True:
-            raw_data = self.queue.get("type")
-            try:
-                msg_type = raw_data.get("type")
-                if msg_type == "handshake":
-                    raw_network_data = raw_data.get("data")
-                    if raw_network_data:
-                        # validated_model = WifiNetworkModel(**raw_network_data)
-                        # yield validated_model
-                        pass
-                elif msg_type == "network_update":
-                    pass
-            except Exception as e:
-                print(f"Validation error: {e}")
-            finally:
-                self.queue.task_done()
+        # while True:
+        #     raw_data = self.queue.get("type")
+        #     try:
+        #         msg_type = raw_data.get("type")
+        #         if msg_type == "handshake":
+        #             raw_network_data = raw_data.get("data")
+        #             if raw_network_data:
+        #                 # validated_model = WifiNetworkModel(**raw_network_data)
+        #                 # yield validated_model
+        #                 pass
+        #         elif msg_type == "network_update":
+        #             pass
+        #     except Exception as e:
+        #         print(f"Validation error: {e}")
+        #     finally:
+        #         self.queue.task_done()
+        pass
