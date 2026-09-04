@@ -3,7 +3,7 @@ import asyncio
 from scapy.all import AsyncSniffer
 
 from state import app_state
-from utils.network import wifi_packets_callback, wifi_packets_clear
+from utils.network import PacketsBuilder, wifi_packets_callback, wifi_packets_clear
 
 #current target. mass-attack will be add in future, maybe
 
@@ -28,11 +28,39 @@ class PmkidService():
         self._sniffer.start()
         print("pmkid sniffer was started")
 
+        packets_builder = PacketsBuilder
+        self.auth_task = asyncio.create_task(packets_builder.pmkid_loop())
+
         await asyncio.sleep(1)
 
         
-    async def stop_capture():
-        pass
+    async def stop_capture(self):
+        if self.auth_task: 
+            self.auth_task.cancel()
+            try:
+                self.auth_task
+            except asyncio.CancelledError:
+                pass
+            self.auth_task = None
+        if self._sniffer and self._sniffer.running:
+            self._sniffer.stop()
+            self._sniffer = None
+            print("pmkid sniffer was stopped")
 
-    async def stream_results():
-        pass
+    async def stream_results(self):
+        while True:
+            raw_data = self.queue.get("type")
+            try:
+                msg_type = raw_data.get("type")
+                if msg_type == "handshake":
+                    raw_network_data = raw_data.get("data")
+                    if raw_network_data:
+                        # validated_model = WifiNetworkModel(**raw_network_data)
+                        # yield validated_model
+                        pass
+                elif msg_type == "network_update":
+                    pass
+            except Exception as e:
+                print(f"Validation error: {e}")
+            finally:
+                self.queue.task_done()

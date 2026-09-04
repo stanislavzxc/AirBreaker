@@ -96,6 +96,7 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
             wpa_key = eapol.payload
             try:
                 key_info = wpa_key.key_info
+                key_data = wpa_key.key_data
             except AttributeError:
                 return
 
@@ -114,5 +115,54 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
                         {"type": "handshake", "step": "M2", "bssid": bssid, "client_mac": client_mac or addr2, "packet": packet}
                     )
 
+                #pmkid logic
+                target_client = client_mac or addr1
+                if key_data and len(key_data) > 3:
+                    pmkid = extract_pmkid_from_key_data(key_data)
+                    if pmkid:
+                        loop.call_soon_threadsafe(
+                            queue.put_nowait,
+                            {
+                                "type": "pmkid",
+                                "bssid": bssid,
+                                "client_mac": target_client,
+                                "pmkid": pmkid.hex(),
+                                "packet": packet
+                            }
+                        )
+
+def extract_pmkid_from_key_data(key_data: bytes) -> bytes | None:
+    try:
+        index = 0
+        while index < len(key_data):
+            if key_data[index] == 0x30:
+                length = key_data[index + 1]
+                rsn_ie = key_data[index : index + 2 + length]
+                
+                pos = 2 + 2 # ID + Len + Version
+                pos += 4     # Group Suite
+                
+                if pos + 2 > len(rsn_ie): return None
+                pairwise_count = int.from_bytes(rsn_ie[pos:pos+2], byteorder='little')
+                pos += 2 + (pairwise_count * 4)
+                
+                if pos + 2 > len(rsn_ie): return None
+                akm_count = int.from_bytes(rsn_ie[pos:pos+2], byteorder='little')
+                pos += 2 + (akm_count * 4)
+                
+                pos += 2 
+                
+                if pos + 2 <= len(rsn_ie):
+                    pmkid_count = int.from_bytes(rsn_ie[pos:pos+2], byteorder='little')
+                    if pmkid_count > 0 and pos + 2 + (pmkid_count * 16) <= len(rsn_ie):
+                        return rsn_ie[pos + 2 : pos + 2 + 16]
+            
+            if index + 1 < len(key_data):
+                index += 2 + key_data[index + 1]
+            else:
+                break
+    except Exception:
+        pass
+    return None
 def wifi_packets_clear():
     networks.clear()
