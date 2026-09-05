@@ -22,7 +22,7 @@ class WifiScanningService:
         self._hopper_task = asyncio.create_task(channel_hopper(device))
 
         loop = asyncio.get_running_loop()
-        conf.use_pcap = True
+        # conf.use_pcap = True
         self._sniffer = AsyncSniffer(
             iface=device,
             prn=lambda pkt: wifi_packets_callback(pkt, self.queue, loop),

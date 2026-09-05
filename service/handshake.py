@@ -6,7 +6,7 @@ from models import WifiNetworkModel
 from models.enums import DeauthType
 from state import app_state
 from utils.network import PacketsBuilder, wifi_packets_callback, wifi_packets_clear
-
+from utils.system import run_command
 
 class HandshakeService():
     # Current target. Mass attack support will be added in future versions.
@@ -20,7 +20,7 @@ class HandshakeService():
         if self._sniffer and self._sniffer.running:
             return 
         network = app_state.current_network
-        deauth = PacketsBuilder(network.bssid, device)
+        deauth = PacketsBuilder(network.bssid, device, ssid=network.ssid)
         self.queue = asyncio.Queue()
 
         wifi_packets_clear()
@@ -34,6 +34,11 @@ class HandshakeService():
         self._sniffer.start()
 
         print("handshake sniffer was started")
+
+        await asyncio.sleep(1)
+
+        code, _, stderr = await run_command("iw", "dev", device, "set", "channel", str(network.channel))
+
 
         await asyncio.sleep(1)
 

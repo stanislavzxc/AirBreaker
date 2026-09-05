@@ -18,6 +18,7 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
         return 
 
     current_channel: int = getattr(app_state, "current_channel", 1)
+    ssid = networks.get(bssid, {}).get("ssid", "<Hidden>")
 
     if bssid not in networks:
         networks[bssid] = {
@@ -30,8 +31,8 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
             "clients_mac": [] 
         }
 
-    addr1: str = packet.addr1  # (Recipient)
-    addr2: str = packet.addr2  # (Sender)
+    addr1: str = packet.addr1
+    addr2: str = packet.addr2
     client_mac: str = ''
 
     if addr1 == bssid and addr2 and addr2 != "ff:ff:ff:ff:ff:ff" and addr2 != bssid:
@@ -43,7 +44,6 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
         networks[bssid]["clients_mac"].append(client_mac)
         loop.call_soon_threadsafe(queue.put_nowait, {"type": "network_update", "data": networks[bssid].copy()})
 
-    # 3. Beacon
     if packet.haslayer(Dot11Beacon):
         try:
             rssi: int = packet.dBm_AntSignal
@@ -55,7 +55,7 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
         layer = packet[Dot11Elt]
 
         while isinstance(layer, Dot11Elt):
-            if layer.ID == 0:  # SSID
+            if layer.ID == 0:
                 try:
                     ssid = layer.info.decode('utf-8', errors='ignore')
                 except Exception:
@@ -79,7 +79,6 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
         
         loop.call_soon_threadsafe(queue.put_nowait, {"type": "network_update", "data": networks[bssid].copy()})
 
-    # 4.Data)
     elif packet[Dot11].type == 2:
         packet_size = len(packet)  
         networks[bssid]["data_bytes"] += packet_size
@@ -87,11 +86,9 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
         
         loop.call_soon_threadsafe(queue.put_nowait, {"type": "network_update", "data": networks[bssid].copy()})
 
-    # (EAPOL)
     if packet.haslayer(EAPOL):
         eapol = packet[EAPOL]
 
-        # (EAPOL-Key)
         if eapol.type == 3:
             wpa_key = eapol.payload
             try:
@@ -105,18 +102,18 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
 
             if is_pairwise:
                 if is_ack:
-                    loop.call_soon_threadsafe(
-                        queue.put_nowait, 
-                        {"type": "handshake", "step": "M1", "bssid": bssid, "client_mac": client_mac or addr1, "packet": packet}
-                    )
+                    step = "M1"
+                    target_mac = packet.addr1
                 else:
+                    step = "M2"
+                    target_mac = packet.addr2
+
+                if target_mac and target_mac != "ff:ff:ff:ff:ff:ff":
                     loop.call_soon_threadsafe(
                         queue.put_nowait, 
-                        {"type": "handshake", "step": "M2", "bssid": bssid, "client_mac": client_mac or addr2, "packet": packet}
+                        {"type": "handshake", "step": step, "bssid": bssid, "client_mac": target_mac, "packet": packet}
                     )
 
-                #pmkid logic
-                target_client = client_mac or addr1
                 if key_data and len(key_data) > 3:
                     pmkid = extract_pmkid_from_key_data(key_data)
                     if pmkid:
@@ -125,11 +122,11 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
                             {
                                 "type": "pmkid",
                                 "bssid": bssid,
-                                "client_mac": target_client,
+                                "client_mac": target_mac,
                                 "pmkid": pmkid.hex(),
                                 "packet": packet,
                                 "ssid": ssid,
-                                "channel": 1
+                                "channel": current_channel
                             }
                         )
 
@@ -141,8 +138,8 @@ def extract_pmkid_from_key_data(key_data: bytes) -> bytes | None:
                 length = key_data[index + 1]
                 rsn_ie = key_data[index : index + 2 + length]
                 
-                pos = 2 + 2 # ID + Len + Version
-                pos += 4     # Group Suite
+                pos = 2 + 2
+                pos += 4
                 
                 if pos + 2 > len(rsn_ie): return None
                 pairwise_count = int.from_bytes(rsn_ie[pos:pos+2], byteorder='little')
@@ -166,5 +163,6 @@ def extract_pmkid_from_key_data(key_data: bytes) -> bytes | None:
     except Exception:
         pass
     return None
+
 def wifi_packets_clear():
     networks.clear()

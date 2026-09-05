@@ -1,19 +1,20 @@
-from pydantic import BaseModel, ComputedField, Field
+from pydantic import BaseModel, computed_field, Field
+from typing import Any
 
 class PmkidCaptured(BaseModel):
     type: str = "pmkid_captured"
     bssid: str
     client_mac: str
     pmkid: bytes 
-    packet: any = Field(exclude=True) 
+    packet: Any = Field(exclude=True) 
     ssid: str = "<Hidden>"
     channel: int = 1
 
-    @ComputedField
+    @computed_field
     def pmkid_hex(self) -> str:
         return self.pmkid.hex()
 
-    @ComputedField
+    @computed_field
     def hashcat_format(self) -> str:
         bssid_clean = self.bssid.replace(":", "").lower()
         client_clean = self.client_mac.replace(":", "").lower()
