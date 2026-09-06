@@ -378,4 +378,11 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 ---
 
 ## 🛠️ Tools Integration
- soon
+- FastAPI
+- Scapy
+- Asyncio
+- Docker && Docker compose
+- Vue.js(in future)
+- Chart.js(in future)
+- Linux(Onlu)
+

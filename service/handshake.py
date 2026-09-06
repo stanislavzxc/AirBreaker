@@ -46,10 +46,13 @@ class HandshakeService():
             case DeauthType.ALL:
                 self.deauth_task = asyncio.create_task(deauth.kill_all_users())
             case DeauthType.MANY:
-                self.deauth_task = asyncio.create_task(deauth.kill_many_users())
+                if len(network.clients_mac) > 1:
+                    self.deauth_task = asyncio.create_task(deauth.kill_many_users(network.clients_mac))
             case DeauthType.ONE:
-                self.deauth_task = asyncio.create_task(deauth.kill_one_user()) 
-        print("deauth packets was sended")
+                if len(network.clients_mac) == 1:
+                    self.deauth_task = asyncio.create_task(deauth.kill_one_user(network.clients_mac[0])) 
+
+        print("deauth packets was sent")
     async def stop_capture(self):
         if self.deauth_task:
             self.deauth_task.cancel()

