@@ -40,8 +40,9 @@ All low-level operations go through standard Linux tools:
 | Link up/down, interface state | `ip` |
 | Available channel discovery | `iwlist` |
 
-`nmcli` and `systemctl` are used **only** to restore the host network
-after capture — never during an attack.
+`nmcli` and `systemctl` are used **only to manage the host's network stack
+around an attack** — disabling NetworkManager before capture and restoring
+it afterwards. They are never part of the attack path itself.
 
 All packet crafting, injection, and parsing is done in **pure Python + Scapy**.
 No black boxes. No external attack binaries. Every step is visible in the source.
