@@ -76,7 +76,6 @@ Then open the API docs at [http://localhost:5000/docs](http://localhost:5000/doc
 
 ## Project structure
 ```text
-.
 ├── main.py              # FastAPI entry point
 ├── docker-compose.yaml  # Docker services configuration
 ├── deps/                # Custom DI for routers (REST + WS)
