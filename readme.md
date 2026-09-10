@@ -67,7 +67,7 @@ cd AirBreaker
 docker build -t airbraker_backend_image .
 
 # Run the container 
-docker run -d -p 5000:5000 --name airbreaker_backend --rm airbraker_backend_image
+docker run -d --network host --privileged --name airbreaker_backend --rm airbraker_backend_image
 ```
 
 Then open the API docs at [http://localhost:5000/docs](http://localhost:5000/docs).
