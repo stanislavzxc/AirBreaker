@@ -88,7 +88,7 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
 
     if packet.haslayer(EAPOL):
         eapol = packet[EAPOL]
-
+        print(f"eapol: {eapol}")
         if eapol.type == 3:
             wpa_key = eapol.payload
             try:

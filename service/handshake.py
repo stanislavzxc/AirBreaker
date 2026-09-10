@@ -26,11 +26,15 @@ class HandshakeService():
         wifi_packets_clear()
 
         code, _, stderr = await run_command("iw", "dev", device, "set", "channel", str(network.channel))
+        if code != 0:
+            print(f"cannot change channel {stderr}") 
+        
         await asyncio.sleep(0.5)
 
         loop = asyncio.get_running_loop()
         self._sniffer = AsyncSniffer(
             iface=device,
+            # filter="ether proto 0x888e or wlan type mgt",
             prn=lambda pkt : wifi_packets_callback(pkt, self.queue, loop),
             store = 0
         )

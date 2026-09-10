@@ -35,8 +35,9 @@ class PacketsBuilder():
         return True
     
     async def kill_many_users(self, clients_mac : list) -> bool:
-        for client_mac in clients_mac:
-            await self.kill_one_user(client_mac)
+        tasks = [self.kill_one_user(mac) for mac in clients_mac]
+        await asyncio.gather(*tasks, return_exceptions=True)
+
         return True
 
     async def kill_all_users(self) -> bool:
