@@ -102,8 +102,8 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 ## 🔬 Phase 2: WPA/WPA2 Attacks (🔄 In Progress)
 
 ### PMKID Attack
-- [ ] PMKID extraction from AP beacon frames
-- [ ] PMKID hash capture (without handshake)
+- [x] PMKID extraction from AP beacon frames
+- [x] PMKID hash capture (without handshake)
 - [ ] Hashcat/JtR integration for cracking
 - [ ] PMKID vs Handshake comparison
 - [ ] Automated PMKID collection from multiple APs
