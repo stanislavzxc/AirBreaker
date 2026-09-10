@@ -1,3 +1,4 @@
+```text
 .
 ├── docker-compose.yaml          # Docker services configuration
 ├── errors/                      # Custom error handlers and exceptions
@@ -61,4 +62,4 @@
         ├── __init__.py          # Package initialization
         ├── check_depends.py     # Dependency verification
         └── run_command.py       # Secure command execution wrapper
-
+```
