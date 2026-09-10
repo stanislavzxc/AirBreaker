@@ -25,22 +25,25 @@ class HandshakeService():
 
         wifi_packets_clear()
 
+        code, _, stderr = await run_command("iw", "dev", device, "set", "channel", str(network.channel))
+        await asyncio.sleep(0.5)
+
         loop = asyncio.get_running_loop()
         self._sniffer = AsyncSniffer(
             iface=device,
             prn=lambda pkt : wifi_packets_callback(pkt, self.queue, loop),
             store = 0
         )
+
+        
+
         self._sniffer.start()
 
         print("handshake sniffer was started")
 
         await asyncio.sleep(1)
 
-        code, _, stderr = await run_command("iw", "dev", device, "set", "channel", str(network.channel))
-
-
-        await asyncio.sleep(1)
+        
 
         match attack_type:
             case DeauthType.ALL:
