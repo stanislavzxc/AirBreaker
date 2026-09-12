@@ -4,6 +4,7 @@ from typing import Dict
 from scapy.layers.dot11 import Dot11, Dot11Beacon, Dot11Elt
 from scapy.layers.eap import EAPOL
 
+from models import HandshakeModel
 from state import app_state
 from utils.network.get_bssid import get_bssid
 
@@ -109,10 +110,19 @@ def wifi_packets_callback(packet, queue: asyncio.Queue, loop: asyncio.AbstractEv
                     target_mac = packet.addr2
 
                 if target_mac and target_mac != "ff:ff:ff:ff:ff:ff":
+                    handshake_data = HandshakeModel(
+                        type="handshake", 
+                        step=step, 
+                        bssid=bssid, 
+                        client_mac=target_mac, 
+                        packet=bytes(packet)
+                    )
+                    
                     loop.call_soon_threadsafe(
                         queue.put_nowait, 
-                        {"type": "handshake", "step": step, "bssid": bssid, "client_mac": target_mac, "packet": packet}
+                        handshake_data
                     )
+
 
                 if key_data and len(key_data) > 3:
                     pmkid = extract_pmkid_from_key_data(key_data)

@@ -2,9 +2,10 @@ import asyncio
 
 from scapy.all import AsyncSniffer
 
+from models import PmkidCaptured
 from state import app_state
 from utils.network import PacketsBuilder, wifi_packets_callback, wifi_packets_clear
-from models import PmkidCaptured
+
 #current target. mass-attack will be add in future, maybe
 
 class PmkidService():

@@ -1,12 +1,13 @@
 import asyncio
 
-from scapy.all import AsyncSniffer
+from scapy.all import AsyncSniffer, conf
 
-from models import WifiNetworkModel
+from models import HandshakeModel
 from models.enums import DeauthType
 from state import app_state
 from utils.network import PacketsBuilder, wifi_packets_callback, wifi_packets_clear
 from utils.system import run_command
+
 
 class HandshakeService():
     # Current target. Mass attack support will be added in future versions.
@@ -32,6 +33,7 @@ class HandshakeService():
         await asyncio.sleep(0.5)
 
         loop = asyncio.get_running_loop()
+        conf.use_pcap = True
         self._sniffer = AsyncSniffer(
             iface=device,
             # filter="ether proto 0x888e or wlan type mgt",
@@ -39,15 +41,11 @@ class HandshakeService():
             store = 0
         )
 
-        
-
         self._sniffer.start()
 
         print("handshake sniffer was started")
 
         await asyncio.sleep(1)
-
-        
 
         match attack_type:
             case DeauthType.ALL:
@@ -82,9 +80,7 @@ class HandshakeService():
             try:
                 msg_type = raw_data.get("type")
                 if msg_type == "handshake":
-                    raw_network_data = raw_data.get("data")
-                    if raw_network_data:
-                        validated_model = WifiNetworkModel(**raw_network_data)
+                        validated_model = HandshakeModel(**raw_data)
                         yield validated_model
                 elif msg_type == "network_update":
                     pass

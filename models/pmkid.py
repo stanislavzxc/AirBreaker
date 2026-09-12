@@ -1,5 +1,7 @@
-from pydantic import BaseModel, computed_field, Field
 from typing import Any
+
+from pydantic import BaseModel, Field, computed_field
+
 
 class PmkidCaptured(BaseModel):
     type: str = "pmkid_captured"

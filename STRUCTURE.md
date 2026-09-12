@@ -23,6 +23,7 @@
 │   │   ├── command.py           # Command execution error models
 │   │   └── service.py           # Service layer error models
 │   ├── monitor.py               # Wi-Fi monitor mode models
+│   ├── handshake.py             # handshake validation model 
 │   ├── networkcards.py          # Network interface card models
 │   └── scanning.py              # Wi-Fi scanning request/response models
 ├── pyproject.toml               # Project metadata and dependencies

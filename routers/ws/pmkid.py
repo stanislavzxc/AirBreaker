@@ -1,9 +1,10 @@
-from fastapi import APIRouter, WebSocket, Depends
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, WebSocket
 
 from deps.ws import get_monitor_device_ws
-from service import PmkidService
 from models import BaseResponse
-from typing import Annotated
+from service import PmkidService
 
 pmkid_router = APIRouter(prefix="/Attack: PMKID")
 
