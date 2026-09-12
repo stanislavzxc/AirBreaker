@@ -1,6 +1,6 @@
 import asyncio
 
-from scapy.all import AsyncSniffer
+from scapy.all import AsyncSniffer, conf
 
 from models import PmkidCaptured
 from state import app_state
@@ -21,6 +21,8 @@ class PmkidService():
         wifi_packets_clear()
 
         loop = asyncio.get_running_loop()
+        
+        conf.use_pcap = True
         self._sniffer = AsyncSniffer(
             iface=device,
             prn=lambda pkt : wifi_packets_callback(pkt, self.queue, loop),
