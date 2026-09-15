@@ -25,6 +25,7 @@ class PmkidService():
         conf.use_pcap = True
         self._sniffer = AsyncSniffer(
             iface=device,
+            filter="ether proto 0x888e",
             prn=lambda pkt : wifi_packets_callback(pkt, self.queue, loop),
             store=0
         )
