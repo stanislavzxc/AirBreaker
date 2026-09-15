@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 from .channel_hopper import channel_hopper, get_available_channels
 from .generate_mac import generate_random_mac
 from .get_bssid import get_bssid

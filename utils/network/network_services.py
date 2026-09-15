@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 from errors import CommandException
 from utils.system.run_command import run_command
 

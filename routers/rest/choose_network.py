@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 from fastapi import APIRouter
 
 from models import BaseResponse, WifiNetworkModel

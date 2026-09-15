@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 from typing import Any
 
 from pydantic import BaseModel, Field, computed_field

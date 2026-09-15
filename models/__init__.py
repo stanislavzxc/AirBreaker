@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 from .base_response import BaseResponse
 from .handshake import HandshakeModel
 from .monitor import MonitorModeResponse

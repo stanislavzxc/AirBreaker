@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 from scapy.layers.dot11 import Dot11
 
 

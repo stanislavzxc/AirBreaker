@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 from .rest.choose_network import current_network_router
 from .rest.monitor_mode import monitor_router
 from .rest.network_cards import network_card_router

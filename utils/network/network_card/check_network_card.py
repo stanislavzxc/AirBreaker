@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 from errors import NetworkCardNotFoundError
 from state import app_state
 
