@@ -26,6 +26,7 @@ class WifiScanningService:
         conf.use_pcap = True
         self._sniffer = AsyncSniffer(
             iface=device,
+            filter="wlan type mgt or wlan type data",
             prn=lambda pkt: wifi_packets_callback(pkt, self.queue, loop),
             store=0
         )
