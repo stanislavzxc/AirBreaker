@@ -33,10 +33,11 @@ class HandshakeService():
         await asyncio.sleep(0.5)
 
         loop = asyncio.get_running_loop()
+        
         conf.use_pcap = True
         self._sniffer = AsyncSniffer(
             iface=device,
-            # filter="ether proto 0x888e or wlan type mgt",
+            filter="ether proto 0x888e",
             prn=lambda pkt : wifi_packets_callback(pkt, self.queue, loop),
             store = 0
         )
