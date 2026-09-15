@@ -57,7 +57,7 @@ No black boxes. No external attack binaries. Every step is visible in the source
 
 ## Quick start
 
-> **Requirements:** Linux, a Wi-Fi adapter with monitor mode + injection support, root privileges.
+> **Requirements:** Linux, docker, a Wi-Fi adapter with monitor mode + injection support, root privileges.
 
 ```bash
 git clone https://github.com/stanislavzxc/AirBreaker.git
