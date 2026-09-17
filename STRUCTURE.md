@@ -1,5 +1,7 @@
 ```text
 .
+
+├── Dockerfile                   # Docker backend container configuration
 ├── docker-compose.yaml          # Docker services configuration
 ├── errors/                      # Custom error handlers and exceptions
 │   ├── __init__.py              # Package initialization
