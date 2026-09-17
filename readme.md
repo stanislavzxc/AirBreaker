@@ -2,6 +2,7 @@
 <p align="center">Wi-Fi Security Framework</p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
   <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
   <img src="https://img.shields.io/badge/Scapy-1E88E5?style=for-the-badge&logo=python&logoColor=white" alt="Scapy">
   <img src="https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white" alt="Vue.js">
@@ -10,7 +11,8 @@
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
   <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
   <img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white" alt="Nginx">
-  <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
+  <img src="https://img.shields.io/badge/802.11-Monitor%20Mode-red?style=for-the-badge" alt="802.11 Monitor Mode">
+  <img src="https://img.shields.io/badge/WPA%2FWPA2-Cracking-critical?style=for-the-badge" alt="WPA/WPA2">
 </a>
 </p>
 
