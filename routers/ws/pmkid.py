@@ -7,7 +7,7 @@ from deps.ws import get_monitor_device_ws
 from models import BaseResponse
 from service import PmkidService
 
-pmkid_router = APIRouter(prefix="/Attack: PMKID")
+pmkid_router = APIRouter(prefix="/pmkid")
 
 pmkid_service = PmkidService()
 
