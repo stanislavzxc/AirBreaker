@@ -61,8 +61,11 @@
     │   ├── network_cards.py     # Network card operations
     │   ├── network_services.py  # Network service utilities
     │   └── wifi_core.py         # Core Wi-Fi operations
-    └── system/                  # System-level utilities
-        ├── __init__.py          # Package initialization
-        ├── check_depends.py     # Dependency verification
-        └── run_command.py       # Secure command execution wrapper
+    ├── system/                  # System-level utilities
+    │   ├── __init__.py          # Package initialization
+    │   ├── check_depends.py     # Dependency verification
+    │   └── run_command.py       # Secure command execution wrapper
+    ├── db/                      # Utility modules
+    ├── __init__.py              # Package initialization
+    └── db.py                    # database core
 ```
