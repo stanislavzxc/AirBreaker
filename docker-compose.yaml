@@ -1,3 +1,31 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-#coming soon!
+services:
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      mongo_db:
+        condition: service_healthy
+  mongo_db:
+    image: mongo:latest
+    container_name: airbreakerDB
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s 
+    volumes:
+      -mongo_data:/data/db
+volumes:
+  mongo_data:
