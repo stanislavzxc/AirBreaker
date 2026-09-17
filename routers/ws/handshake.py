@@ -34,10 +34,10 @@ async def stop_capture():
         message="catching handshake was stopped"
     )        
 
-@handshake_router.get("/get", summary="get specific handshake by name of network")
+@handshake_router.get("/", summary="get specific handshake by name of network")
 def get_specific_handshake(name: str):
     pass
 
-@handshake_router.get("/get/all", summary = "get all catched handshakes")
+@handshake_router.get("/all", summary = "get all catched handshakes")
 def get_all_handshakes():
     pass

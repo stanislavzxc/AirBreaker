@@ -11,13 +11,13 @@ from utils.network import get_wifi_chipsets
 network_card_router = APIRouter(prefix="/network_cards", tags=["network_cards"])
 
 
-@network_card_router.get("/get/all")
+@network_card_router.get("/all")
 async def get_network_cards() -> NetworkCardsResponse:
     devices = await get_wifi_chipsets()
     return NetworkCardsResponse(status=200, devices=devices)
 
 
-@network_card_router.get("/get/current")
+@network_card_router.get("/current")
 def get_current_card() -> BaseResponse:
     device = app_state.current_card
     if not device:
@@ -25,7 +25,7 @@ def get_current_card() -> BaseResponse:
     return BaseResponse(success=True, message=device)
 
 
-@network_card_router.post("/set/current")
+@network_card_router.post("/current")
 def set_current_card(device: Annotated[str, Body(embed=True)]) -> BaseResponse:
     app_state.current_card = device
     return BaseResponse(success=True, message=f"card {device} was selected")

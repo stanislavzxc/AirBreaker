@@ -6,7 +6,7 @@ from state import app_state
 
 current_network_router = APIRouter(prefix="/network", tags=["network"])
 
-@current_network_router.get('/get/current', response_model=BaseResponse)
+@current_network_router.get("/current", response_model=BaseResponse)
 def get_current_network():
     current_network : WifiNetworkModel = app_state.current_network
     return BaseResponse(
@@ -14,7 +14,7 @@ def get_current_network():
         message=current_network.model_dump_json()
     )
 
-@current_network_router.post('/set/current', response_model=BaseResponse)
+@current_network_router.post("/current", response_model=BaseResponse)
 def set_current_network(request_data: WifiNetworkModel):
     app_state.current_network = request_data
     return BaseResponse(
