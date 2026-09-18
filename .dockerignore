@@ -4,6 +4,7 @@
 .vscode/
 **/__pycache__/
 .ruff_cache/
+tests/
 
 .dockerfile
 docker-compose.yaml
