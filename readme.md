@@ -83,7 +83,7 @@ Then open the API docs at [http://localhost:5000/docs](http://localhost:5000/doc
 ├── errors/              # Error handlers and exceptions
 ├── models/              # Pydantic schemas
 ├── routers/             # REST + WebSocket endpoints
-├── service/             # Business logic layer
+├── services/            # Business logic layer
 ├── state.py             # Application state
 └── utils/               # Network and system helpers
 ```

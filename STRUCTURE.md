@@ -42,7 +42,7 @@
 │   │   ├── choose_network.py    # Network selection endpoints
 │   │   ├── monitor_mode.py      # Monitor mode management endpoints
 │   │   └── network_cards.py     # Network card management endpoints
-├── service/                     # Business logic layer
+├── services/                     # Business logic layer
 │   ├── __init__.py              # Package initialization
 │   ├── handshake.py             # Handshake capture business logic
 │   ├── pmkid.py                 # PMKID capture business logic
