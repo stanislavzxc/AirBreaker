@@ -2,8 +2,6 @@
 
 from unittest.mock import AsyncMock
 
-import pytest
-
 from utils.system.run_command import run_command
 
 
@@ -78,4 +76,4 @@ async def test_invalid_utf8_is_replaced(monkeypatch):
 
     assert "\ufffd" in out
     assert rc == 0
-    
+

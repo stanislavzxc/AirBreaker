@@ -2,8 +2,6 @@
 
 import re
 
-import pytest
-
 from utils.network import generate_random_mac
 
 
