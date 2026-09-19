@@ -17,7 +17,7 @@ from routers import (
     pmkid_router,
     scanning_router,
 )
-from service import set_monitor_mode_service
+from services import set_monitor_mode_service
 from state import app_state
 from utils.network import check_network_card_mode
 
