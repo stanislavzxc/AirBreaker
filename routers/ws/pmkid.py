@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, WebSocket
 
 from deps.ws import get_monitor_device_ws
 from models import BaseResponse
-from service import PmkidService
+from services import PmkidService
 
 pmkid_router = APIRouter(prefix="/pmkid")
 

@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 
 from models.monitor import MonitorModeResponse
-from service import set_monitor_mode_service
+from services import set_monitor_mode_service
 from utils.network import check_network_card_mode
 from utils.network.network_card import check_network_card
 

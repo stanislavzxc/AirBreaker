@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 
 from deps.ws import get_monitor_device_ws
 from models.base_response import BaseResponse
-from service import WifiScanningService
+from services import WifiScanningService
 
 scanning_router = APIRouter(
     prefix="/scanning/ws",

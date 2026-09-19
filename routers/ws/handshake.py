@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 
 from deps.ws import get_monitor_device_ws
 from models import BaseResponse
-from service import HandshakeService
+from services import HandshakeService
 
 handshake_router = APIRouter(prefix="/handshake", tags=["handshake"])
 
