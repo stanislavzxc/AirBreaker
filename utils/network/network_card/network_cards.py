@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 import os
 
+from asyncio import to_thread
 
-async def get_wifi_chipsets():
+
+async def sync_get_wifi_chipsets():
     interfaces = []
     main_dir = "/sys/class/net/"
 
@@ -27,3 +29,6 @@ async def get_wifi_chipsets():
             })
             
     return interfaces
+
+async def get_wifi_chipset():
+    return await to_thread(sync_get_wifi_chipsets)
