@@ -105,6 +105,7 @@ Then open the API docs at [http://localhost:5000/docs](http://localhost:5000/doc
 
 ### 🔄 In Progress
 
+- [ ] unit tests (first priority)
 - [ ] Multi-MAC deauthentication
 - [ ] Broadcast deauthentication
 - [ ] PMKID hash capture (without handshake)
