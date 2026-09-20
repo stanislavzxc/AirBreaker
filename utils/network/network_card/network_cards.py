@@ -4,7 +4,7 @@ import os
 from asyncio import to_thread
 
 
-async def sync_get_wifi_chipsets():
+def sync_get_wifi_chipsets():
     interfaces = []
     main_dir = "/sys/class/net/"
 
