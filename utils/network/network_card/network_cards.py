@@ -7,7 +7,7 @@ async def get_wifi_chipsets():
     main_dir = "/sys/class/net/"
 
     if not os.path.exists(main_dir):
-        return {"succes": False, "message": "sys/class/net dir doesnt exist, maybe not a linux?" }
+        return {"success": False, "message": "sys/class/net dir doesnt exist, maybe not a linux?" }
     
     for iface in os.listdir(main_dir):
         wifi_dir = os.path.join(main_dir, iface, "wireless")
