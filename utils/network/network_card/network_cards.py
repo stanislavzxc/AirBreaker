@@ -30,5 +30,5 @@ def sync_get_wifi_chipsets():
             
     return interfaces
 
-async def get_wifi_chipset():
+async def get_wifi_chipsets():
     return await to_thread(sync_get_wifi_chipsets)
