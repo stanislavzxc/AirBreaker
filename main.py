@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 import logging
 from contextlib import asynccontextmanager
+from os import getenv
 
 import fastapi_swagger_dark as fsd
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from db.db import db_repo
 from errors import CommandException, NetworkCardNotFoundError, ServiceException
 from models.errors import CommandErrorResponse, ServiceErrorResponse
 from routers import (
@@ -21,8 +23,6 @@ from services import set_monitor_mode_service
 from state import app_state
 from utils.network import check_network_card_mode
 
-from db.db import db_repo
-from os import getenv
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -36,7 +36,7 @@ async def lifespan(app: FastAPI):
         await db_repo.close_connection()
 
     except Exception as e:
-        logging.error(f"error on close db connection", exc_info=e)
+        logging.error("error on close db connection", exc_info=e)
 
     if app_state.current_card:
         try:
