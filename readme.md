@@ -64,6 +64,12 @@ No black boxes. No external attack binaries. Every step is visible in the source
 git clone https://github.com/stanislavzxc/AirBreaker.git
 cd AirBreaker
 
+#(BETA!, HAVE SOME ERRORS)
+# use docker compose and run the all containers
+sudo docker compose up -d --build
+
+#or use (needs mongodb)
+
 # Build the image
 docker build -t airbraker_backend_image .
 
