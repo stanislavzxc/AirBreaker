@@ -21,10 +21,23 @@ from services import set_monitor_mode_service
 from state import app_state
 from utils.network import check_network_card_mode
 
+from db.db import db_repo
+from os import getenv
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    await db_repo.open_connection(
+        db_path= getenv("MONGO_DB_URL"),
+        db_name=getenv("MONGO_DB_NAME")
+    )
     yield
+
+    try:
+        await db_repo.close_connection()
+
+    except Exception as e:
+        logging.error(f"error on close db connection", exc_info=e)
+
     if app_state.current_card:
         try:
             current_mode = check_network_card_mode(app_state.current_card)
