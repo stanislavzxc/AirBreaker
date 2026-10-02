@@ -2,6 +2,7 @@
 
 from motor.motor_asyncio import AsyncIOMotorClient
 
+
 class MongoDb():
     def __init__(self):
         self.client: AsyncIOMotorClient = None
