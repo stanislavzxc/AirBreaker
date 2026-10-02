@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from motor.motor_asyncio import AsyncIOMotorClient
 import logging
+
+from motor.motor_asyncio import AsyncIOMotorClient
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ class MongoDB():
             await self.db.command("ping")
 
         except Exception as e:
-            logger.error(f"error with db", exc_info=e)
+            logger.error("error with db", exc_info=e)
             raise e
 
     async def close_connection(self) -> None:
