@@ -2,10 +2,18 @@
 
 FROM python:3.11-slim
 
-#needs libpcap-dev and tcpdump for scapy
+#needs libpcap-dev and tcpdump for scapy 
+# also: iw, ip, iwlist, network_manager, wpa_supplicant
+
 RUN apt-get update && apt-get install -y --no-install-recommends \ 
     libpcap-dev \
     tcpdump \
+    iw \
+    iproute2 \
+    network-manager \
+    wpasupplicant \
+    wireless-tools \
+    systemd \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

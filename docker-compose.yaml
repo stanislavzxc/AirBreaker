@@ -4,11 +4,26 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    ports:
-      - 5000:5000
+    
+    network_mode: host
+    privileged: true
+    
+    environment:
+      - MONGO_DB_URL=${MONGO_DB_URL}
+      - MONGO_DB_NAME=${MONGO_DB_NAME}
+    
     depends_on:
       mongo_db:
         condition: service_healthy
+  
+    volumes:
+      - /sys:/sys
+      - /dev:/dev
+
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+
+      - /var/run/wpa_supplicant:/var/run/wpa_supplicant
+      - /etc/wpa_supplicant:/etc/wpa_supplicant:ro
   mongo_db:
     image: mongo:latest
     container_name: airbreakerDB
@@ -25,7 +40,7 @@ services:
       retries: 3
       start_period: 10s 
     volumes:
-      -mongo_data:/data/db
+      - mongo_data:/data/db
 volumes:
   mongo_data:
 
