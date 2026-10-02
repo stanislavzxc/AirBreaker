@@ -4,30 +4,26 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    
     network_mode: host
     privileged: true
-    
     environment:
       - MONGO_DB_URL=${MONGO_DB_URL}
       - MONGO_DB_NAME=${MONGO_DB_NAME}
-    
     depends_on:
       mongo_db:
         condition: service_healthy
-  
     volumes:
-      - /sys:/sys
-      - /dev:/dev
-
+      - /sys:/sys:ro
+      - /dev:/dev:ro
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
-
       - /var/run/wpa_supplicant:/var/run/wpa_supplicant
       - /etc/wpa_supplicant:/etc/wpa_supplicant:ro
+
   mongo_db:
     image: mongo:latest
     container_name: airbreakerDB
     restart: always
+    command: ["--wiredTigerCacheSizeGB", "0.25"] 
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
