@@ -23,7 +23,5 @@ build: run_mongo
 	pip install --upgrade pip && \
 	pip install -r requirements.txt
 
-	$(MAKE) dev
-
 run_mongo:
 	sudo docker compose up -d --build
