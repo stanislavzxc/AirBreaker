@@ -64,17 +64,11 @@ No black boxes. No external attack binaries. Every step is visible in the source
 git clone https://github.com/stanislavzxc/AirBreaker.git
 cd AirBreaker
 
-#(BETA!, HAVE SOME ERRORS)
-# use docker compose and run the all containers
-sudo docker compose up -d --build
+#build the all dependies
+make build
 
-#or use (needs mongodb)
-
-# Build the image
-docker build -t airbraker_backend_image .
-
-# Run the container 
-docker run -d --network host --privileged --name airbreaker_backend --rm airbraker_backend
+#run backend and docker compose:
+make dev
 ```
 
 Then open the API docs at [http://localhost:5000/docs](http://localhost:5000/docs).
