@@ -1,11 +1,24 @@
-.PHONY: dev test lint
+.PHONY: dev test lint build
 
-dev: lint test
-# 	sudo ./env/bin/uvicorn main:app --reload --host 0.0.0.0 --port 5000
-	echo 0
+dev: lint test run_mongo
+	sudo ./env/bin/python3 -m uvicorn main:app --reload --host 0.0.0.0 --port 5000
+	@echo "AirBreaker is running successfully"
 
 test:
-	python -m pytest
+	./env/bin/python3 -m pytest
 
 lint:
-	ruff check --fix .
+	./env/bin/ruff check --fix .
+
+build: run_mongo
+	sudo apt install -y python3 python3-venv
+	python3 -m venv env
+	
+	source env/bin/activate && \
+	pip install --upgrade pip && \
+	pip install -r requirements.txt
+
+	${MAKE} dev
+
+run_mongo:
+	sudo docker compose up -d --build
