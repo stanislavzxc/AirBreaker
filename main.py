@@ -22,6 +22,7 @@ from routers import (
 from services import set_monitor_mode_service
 from state import app_state
 from utils.network import check_network_card_mode
+from utils.system import run_command
 
 
 @asynccontextmanager
@@ -34,7 +35,12 @@ async def lifespan(app: FastAPI):
 
     try:
         await db_repo.close_connection()
-
+        code,_,stderr = await run_command("docker", "compose", "down")
+        if code != 0:
+           raise CommandException(
+                failed_cmd="sudo docker compose down",
+                stderr=stderr
+           ) 
     except Exception as e:
         logging.error("error on close db connection", exc_info=e)
 
