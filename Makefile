@@ -1,8 +1,9 @@
 .PHONY: dev test lint build
 
 dev: lint test run_mongo
-	sudo ./env/bin/python3 -m uvicorn main:app --reload --host 0.0.0.0 --port 5000
 	@echo "AirBreaker is running successfully"
+	sudo ./env/bin/python3 -m uvicorn main:app --reload --host 0.0.0.0 --port 5000 --env-file .env
+	@echo "AirBreaker was stopped successfully"
 
 test:
 	./env/bin/python3 -m pytest
