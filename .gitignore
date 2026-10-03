@@ -5,4 +5,3 @@ env/
 .ruff_cache/
 .vscode/
 add_license.py
-Makefile
