@@ -1,9 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from unittest.mock import AsyncMock, MagicMock, patch
+
 import pytest
 
-from unittest.mock import AsyncMock, MagicMock, patch
 from models.scanning import WifiNetworkModel
+
 
 class TestwifiScanning():
 
@@ -26,4 +28,4 @@ class TestwifiScanning():
         pass
 
     async def test_stream_results_come():
-    `pass
+        pass
