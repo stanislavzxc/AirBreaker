@@ -23,5 +23,8 @@ ignore = [
 
 
 [tool.pytest.ini_options]
-testpaths=["tests"]
+testpaths = ["tests"]
 asyncio_mode = "auto"
+filterwarnings = [
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated:Warning"
+]
