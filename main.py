@@ -6,7 +6,8 @@ from os import getenv
 import fastapi_swagger_dark as fsd
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from db.db import db_repo
 from errors import CommandException, NetworkCardNotFoundError, ServiceException
@@ -59,6 +60,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan, docs_url=None)
 
+app.mount("/images", StaticFiles(directory="images"), name="images")
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"]
@@ -89,6 +93,10 @@ def linux_command_error(_, exc: CommandException) -> JSONResponse:
         stderr=exc.stderr
     )
     return JSONResponse(status_code=exc.code, content=result.model_dump())
+
+@app.get('/favicon.ico', include_in_schema=False)
+async def favicon():
+    return FileResponse("images/favicon.png") 
     
 
 @app.exception_handler(ServiceException)
