@@ -1,8 +1,7 @@
+<h1 align="center">AirBreaker</h1>
 <p align="center">
   <img src="images/favicon.png" alt="AirBreaker Logo" width="300"/>
 </p>
-
-<h1 align="center">AirBreaker</h1>
 <p align="center">Wi-Fi Security Framework</p>
 
 <p align="center">
