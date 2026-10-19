@@ -1,4 +1,4 @@
-<p align="center">AirBreaker</p>
+<h2 align="center">AirBreaker</h2>
 <p align="center">
   <img src="images/favicon.png" alt="AirBreaker Logo" width="300"/>
 </p>
