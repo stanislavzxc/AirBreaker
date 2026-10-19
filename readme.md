@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <img src="images/favicon.png" alt="AirBreaker Logo" max-width="10px"/>
+  <img src="images/favicon.png" alt="AirBreaker Logo" width="120"/>
 </p>
 
 ## ⚠️ Disclaimer
